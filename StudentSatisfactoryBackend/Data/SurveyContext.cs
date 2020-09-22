@@ -13,6 +13,8 @@ namespace StudentSatisfactoryBackend.Data
     {
         public SurveyContext(DbContextOptions<SurveyContext> options)
             : base(options) { }
+
+        public DbSet<User> RegisteredUsers { get; set; }
     }
 
 }
