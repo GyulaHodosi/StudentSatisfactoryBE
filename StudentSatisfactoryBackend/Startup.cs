@@ -46,7 +46,7 @@ namespace StudentSatisfactoryBackend
 
             services.AddControllers();
             services.AddDbContextPool<SurveyContext>(
-                options => options.UseSqlServer(Configuration.GetConnectionString("RecipeConnection")));
+                options => options.UseSqlServer(Configuration.GetConnectionString("SurveyConnection")));
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "My API", Version = "v1" });
