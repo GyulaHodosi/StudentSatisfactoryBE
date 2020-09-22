@@ -3,19 +3,23 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using StudentSatisfactoryBackend.Models;
+using StudentSatisfactoryBackend.Services.LoginManager;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace StudentSatisfactoryBackend.Controllers
 {
-    [Route("api/[controller]")]
-    public class ValuesController : Controller
+    [Route("api/login")]
+    public class LoginController : Controller
     {
-        // GET: api/<controller>
-        [HttpGet]
-        public IEnumerable<string> Get()
+        private readonly ILoginManager _loginManager;
+
+        [HttpPost]
+        public User Login(Object creds)
         {
-            return new string[] { "value1", "value2" };
+            User user = _loginManager.Login(creds);
+            return user;
         }
 
         // GET api/<controller>/5
