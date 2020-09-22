@@ -20,11 +20,11 @@ namespace StudentSatisfactoryBackend.Services.LoginManager
         public User Login(Object creds)
         {
             bool isAuthenticated = IsAuthenticated(creds);
-            User user;
+            User user = null;
 
             if (isAuthenticated)
             {
-                user = SurveyContext.GetUser(creds);
+                user = new User(); //SurveyContext.GetUser(creds);
 
                 if (user == null)
                 {
@@ -32,9 +32,9 @@ namespace StudentSatisfactoryBackend.Services.LoginManager
                 }
 
                 return user;
-            
-               return null;
-            
+            }
+
+            return user;
         }
     }
 }
