@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
+using StudentSatisfactoryBackend.Data;
 using StudentSatisfactoryBackend.Models;
 using StudentSatisfactoryBackend.Services.LoginManager;
 
@@ -15,36 +18,31 @@ namespace StudentSatisfactoryBackend.Controllers
     {
         private readonly ILoginManager _loginManager;
 
-        [HttpPost]
-        public User Login(Object creds)
+        public LoginController(SurveyContext context)
         {
-            User user = _loginManager.Login(creds);
+            _loginManager = new LoginManager(context);
+        }
+
+        [HttpGet]
+        public string GetClientId()
+        {
+            return Startup._clientData.ClientId;
+        }
+
+        [HttpPost]
+        public async Task<ActionResult<User>> Login(string tokenId)
+        { 
+            if ( !Request.Headers.ContainsKey("X-Requested-With"))
+            {
+                return BadRequest();
+            }
+
+            try
+            {
+                payload = await VaidateAsync(tokenId)
+            }
+            User user = await _loginManager.Login(code);
             return user;
-        }
-
-        // GET api/<controller>/5
-        [HttpGet("{id}")]
-        public string Get(int id)
-        {
-            return "value";
-        }
-
-        // POST api/<controller>
-        [HttpPost]
-        public void Post([FromBody]string value)
-        {
-        }
-
-        // PUT api/<controller>/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody]string value)
-        {
-        }
-
-        // DELETE api/<controller>/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
-        {
         }
     }
 }

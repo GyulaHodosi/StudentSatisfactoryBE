@@ -1,4 +1,7 @@
-﻿using StudentSatisfactoryBackend.Models;
+﻿using Microsoft.AspNetCore.Authentication.Google;
+using Microsoft.Extensions.DependencyInjection;
+using StudentSatisfactoryBackend.Data;
+using StudentSatisfactoryBackend.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,6 +11,11 @@ namespace StudentSatisfactoryBackend.Services.LoginManager
 {
     public class LoginManager : ILoginManager
     {
+        private readonly SurveyContext _surveyContext;
+        public LoginManager(SurveyContext context)
+        {
+            _surveyContext = context;
+        }
         private User Register(Object creds)
         {
             throw new NotImplementedException();
@@ -17,8 +25,11 @@ namespace StudentSatisfactoryBackend.Services.LoginManager
         {
             throw new NotImplementedException();
         }
-        public User Login(Object creds)
+        public async Task<User> Login(string creds)
         {
+
+            
+
             bool isAuthenticated = IsAuthenticated(creds);
             User user = null;
 
