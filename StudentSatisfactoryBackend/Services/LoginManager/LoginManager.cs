@@ -20,7 +20,7 @@ namespace StudentSatisfactoryBackend.Services.LoginManager
             Payload payload;
             try
             {
-                payload = await GoogleJsonWebSignature.ValidateAsync(tokenId,
+                payload = await ValidateAsync(tokenId,
                     new ValidationSettings
                     {
                         Audience = new[] { Startup.ClientData.ClientId }
