@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 using Google.Apis.Auth;
 using static Google.Apis.Auth.GoogleJsonWebSignature;
-using StudentSatisfactoryBackend.RequestModels;
+using StudentSatisfactoryBackend.Models.RequestModels;
 using Microsoft.AspNetCore.Identity;
 
 namespace StudentSatisfactoryBackend.Services.LoginManager

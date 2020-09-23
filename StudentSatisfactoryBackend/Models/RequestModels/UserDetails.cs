@@ -1,4 +1,4 @@
-﻿namespace StudentSatisfactoryBackend.RequestModels
+﻿namespace StudentSatisfactoryBackend.Models.RequestModels
 {
     public class UserDetails
     {

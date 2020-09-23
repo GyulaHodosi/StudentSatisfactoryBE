@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using StudentSatisfactoryBackend.Models;
-using StudentSatisfactoryBackend.RequestModels;
+using StudentSatisfactoryBackend.Models.RequestModels;
 using StudentSatisfactoryBackend.Services.LoginManager;
 using System.Threading.Tasks;
 

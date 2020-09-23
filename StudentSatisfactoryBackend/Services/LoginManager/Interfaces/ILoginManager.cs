@@ -1,4 +1,4 @@
-﻿using StudentSatisfactoryBackend.RequestModels;
+﻿using StudentSatisfactoryBackend.Models.RequestModels;
 using System.Threading.Tasks;
 
 namespace StudentSatisfactoryBackend.Services.LoginManager
