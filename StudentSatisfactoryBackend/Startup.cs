@@ -24,7 +24,7 @@ namespace StudentSatisfactoryBackend
 {
     public class Startup
     {
-        public static ClientData _clientData;
+        public static ClientData ClientData { get; private set; }
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -68,7 +68,7 @@ namespace StudentSatisfactoryBackend
                     IConfigurationSection googleAuthNSection = Configuration.GetSection("Authentication:Google");
                     options.ClientId = googleAuthNSection["ClientId"];
                     options.ClientSecret = googleAuthNSection["ClientSecret"];
-                    _clientData = googleAuthNSection.Get<ClientData>();
+                    ClientData = googleAuthNSection.Get<ClientData>();
                 });
 
             services.ConfigureApplicationCookie(options =>
