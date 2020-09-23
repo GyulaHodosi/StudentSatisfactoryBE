@@ -28,13 +28,7 @@ namespace StudentSatisfactoryBackend.Controllers
         [HttpPost]
         public async Task<ActionResult<UserDetails>> Login([FromBody] LoginData loginData)
         {
-            
             UserDetails user = null;
-
-            /*if ( !Request.Headers.ContainsKey("X-Requested-With"))
-            {
-                return BadRequest();
-            }*/
 
             user = await _loginManager.Login(loginData.TokenId);
             return user;
