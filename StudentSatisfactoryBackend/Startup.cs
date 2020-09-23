@@ -24,6 +24,7 @@ namespace StudentSatisfactoryBackend
 {
     public class Startup
     {
+        public static ClientData _clientData;
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -60,6 +61,15 @@ namespace StudentSatisfactoryBackend
                 opt.Password.RequireUppercase = true;
             })
                 .AddEntityFrameworkStores<SurveyContext>().AddDefaultTokenProviders();
+
+            services.AddAuthentication()
+            .AddGoogle(options =>
+                {
+                    IConfigurationSection googleAuthNSection = Configuration.GetSection("Authentication:Google");
+                    options.ClientId = googleAuthNSection["ClientId"];
+                    options.ClientSecret = googleAuthNSection["ClientSecret"];
+                    _clientData = googleAuthNSection.Get<ClientData>();
+                });
 
             services.ConfigureApplicationCookie(options =>
             {
