@@ -1,10 +1,4 @@
-﻿using Microsoft.AspNetCore.Authentication.Google;
-using Microsoft.Extensions.DependencyInjection;
-using StudentSatisfactoryBackend.Data;
-using StudentSatisfactoryBackend.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using StudentSatisfactoryBackend.Models;
 using System.Threading.Tasks;
 using Google.Apis.Auth;
 using static Google.Apis.Auth.GoogleJsonWebSignature;
