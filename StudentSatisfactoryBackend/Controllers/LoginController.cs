@@ -14,11 +14,10 @@ namespace StudentSatisfactoryBackend.Controllers
     public class LoginController : Controller
     {
         private readonly ILoginManager _loginManager;
-        private readonly UserManager<User> _userManager;
 
-        public LoginController()
+        public LoginController(UserManager<User> userManager)
         {
-            _loginManager = new LoginManager(_userManager);
+            _loginManager = new LoginManager(userManager);
         }
 
         [HttpGet]
@@ -28,17 +27,17 @@ namespace StudentSatisfactoryBackend.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<UserDetails>> Login(string tokenId)
+        public async Task<ActionResult<UserDetails>> Login([FromBody] LoginData loginData)
         {
             
             UserDetails user = null;
 
-            if ( !Request.Headers.ContainsKey("X-Requested-With"))
+            /*if ( !Request.Headers.ContainsKey("X-Requested-With"))
             {
                 return BadRequest();
-            }
+            }*/
 
-            user = await _loginManager.Login(tokenId);
+            user = await _loginManager.Login(loginData.TokenId);
             return user;
         }
 
