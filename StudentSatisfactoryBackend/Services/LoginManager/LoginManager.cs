@@ -1,40 +1,29 @@
 ﻿using StudentSatisfactoryBackend.Models;
 using System.Threading.Tasks;
-using Google.Apis.Auth;
-using static Google.Apis.Auth.GoogleJsonWebSignature;
 using StudentSatisfactoryBackend.Models.RequestModels;
 using Microsoft.AspNetCore.Identity;
+using StudentSatisfactoryBackend.Services.PayloadManager;
 
 namespace StudentSatisfactoryBackend.Services.LoginManager
 {
     public class LoginManager : ILoginManager
     {
         private readonly UserManager<User> _userManager;
+        private readonly PayloadCreater _payloadCreater;
         public LoginManager(UserManager<User> userManager)
         {
             _userManager = userManager;
+            _payloadCreater = new PayloadCreater();
         }
 
         public async Task<UserDetails> Login(string tokenId)
         {
-            Payload payload;
-            try
-            {
-                payload = await ValidateAsync(tokenId,
-                    new ValidationSettings
-                    {
-                        Audience = new[] { Startup.ClientData.ClientId }
-                    });
-            }
-            catch (InvalidJwtException)
-            {
-                return null;
-            }
+            var payload = await _payloadCreater.CreatePayloadAsync(tokenId);
 
-            return await GetOrCreateExternalLoginUser("google", payload.Subject, payload.Email, payload.GivenName, payload.FamilyName);
+            return payload != null ? await GetOrCreateExternalLoginUser("google", payload.Subject, payload.Email, payload.GivenName, payload.FamilyName, payload.Picture) : null;
 
         }
-        private async Task<UserDetails> GetOrCreateExternalLoginUser(string provider, string key, string email, string firstName, string lastName)
+        private async Task<UserDetails> GetOrCreateExternalLoginUser(string provider, string key, string email, string firstName, string lastName, string pictureLink)
         {
             // Login already linked to a user
             var user = await _userManager.FindByLoginAsync(provider, key);
@@ -50,7 +39,8 @@ namespace StudentSatisfactoryBackend.Services.LoginManager
                     Email = email,
                     UserName = email,
                     FirstName = firstName,
-                    LastName = lastName
+                    LastName = lastName,
+                    PictureLink = pictureLink
                 };
 
                 await _userManager.CreateAsync(user);
