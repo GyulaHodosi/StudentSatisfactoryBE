@@ -10,5 +10,7 @@ namespace StudentSatisfactoryBackend.Models
     public class User : IdentityUser
     {
         public string Course { get; set; }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
     }
 }
