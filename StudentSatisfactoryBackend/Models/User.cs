@@ -11,6 +11,8 @@ namespace StudentSatisfactoryBackend.Models
     {
         public string Course { get; set; }
         public string City { get; set; }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
 
         public User(string course, string city, string email, string username)
         {
@@ -19,5 +21,6 @@ namespace StudentSatisfactoryBackend.Models
             Email = email;
             UserName = username;
         }
+        
     }
 }
