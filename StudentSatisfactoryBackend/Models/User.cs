@@ -13,6 +13,12 @@ namespace StudentSatisfactoryBackend.Models
         public string City { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
+        public string PictureLink { get; set; }
+
+        public User()
+        {
+
+        }
 
         public User(string course, string city, string email, string username)
         {
