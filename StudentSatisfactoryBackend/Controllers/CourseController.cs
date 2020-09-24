@@ -1,7 +1,13 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using StudentSatisfactoryBackend.Data;
+using StudentSatisfactoryBackend.Models;
+using StudentSatisfactoryBackend.Models.RequestModels;
 using StudentSatisfactoryBackend.Repositories;
-using StudentSatisfactoryBackend.Repositories.Interfaces;
+using StudentSatisfactoryBackend.Repositories.CourseRepository;
+using StudentSatisfactoryBackend.Repositories.CourseRepository.Interfaces;
+using StudentSatisfactoryBackend.Repositories.UserRepository.Interfaces;
+using StudentSatisfactoryBackend.Repositories.UserRepsitory;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -12,10 +18,12 @@ namespace StudentSatisfactoryBackend.Controllers
     [ApiController]
     public class CourseController : ControllerBase
     {
-        private readonly ICourseRepository _courseRepository;
+        private readonly ICourseGetter _courseRepository;
+        private readonly IUserCorseSetter _userCorseSetter;
 
-        public CourseController(SurveyContext context)
+        public CourseController(SurveyContext context, UserManager<User> userManager)
         {
+            _userCorseSetter = new UserRepository(context, userManager);
             _courseRepository = new CourseRepository(context);
         }
 
@@ -28,6 +36,16 @@ namespace StudentSatisfactoryBackend.Controllers
                 return Ok(courses);
             }
             return NotFound();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> SetCourseToUser([FromBody] CourseToUser courseToUser)
+        {
+            var result = await _userCorseSetter.SetCourseToUser(courseToUser);
+            if (result)
+                return Ok();
+
+            return BadRequest();
         }
     }
 }
