@@ -1,13 +1,13 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using StudentSatisfactoryBackend.Data;
 using StudentSatisfactoryBackend.Models;
-using StudentSatisfactoryBackend.Repositories.Interfaces;
+using StudentSatisfactoryBackend.Repositories.CourseRepository.Interfaces;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace StudentSatisfactoryBackend.Repositories
+namespace StudentSatisfactoryBackend.Repositories.CourseRepository
 {
-    public class CourseRepository : ICourseRepository
+    public class CourseRepository : ICourseGetter
     {
         private readonly SurveyContext _context;
 
@@ -19,6 +19,11 @@ namespace StudentSatisfactoryBackend.Repositories
         public async Task<IEnumerable<Course>> GetAllCourse()
         {
             return await _context.Courses.ToListAsync();
+        }
+
+        public async Task<Course> GetCourseByIdAsync(string courseName)
+        {
+            return await _context.Courses.FirstOrDefaultAsync(c => c.Name == courseName);
         }
     }
 }

@@ -2,11 +2,12 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace StudentSatisfactoryBackend.Repositories.Interfaces
+namespace StudentSatisfactoryBackend.Repositories.CourseRepository.Interfaces
 {
-    public interface ICourseRepository
+    public interface ICourseGetter
     {
         Task<IEnumerable<Course>> GetAllCourse();
 
+        Task<Course> GetCourseByIdAsync(string courseName);
     }
 }
