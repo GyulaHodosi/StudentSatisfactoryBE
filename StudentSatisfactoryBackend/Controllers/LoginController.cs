@@ -26,12 +26,15 @@ namespace StudentSatisfactoryBackend.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<UserDetails>> Login([FromBody] LoginData loginData)
+        public async Task<IActionResult> Login([FromBody] LoginData loginData)
         {
-            UserDetails user = null;
+            var result = await _loginManager.Login(loginData.TokenId);
+            if (result)
+            {
+                return Ok();
+            }
 
-            user = await _loginManager.Login(loginData.TokenId);
-            return user;
+            return StatusCode(500);
         }
 
     }

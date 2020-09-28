@@ -5,6 +5,6 @@ namespace StudentSatisfactoryBackend.Services.LoginManager
 {
     interface ILoginManager
     {
-        public Task<UserDetails> Login(string tokenId);
+        public Task<bool> Login(string tokenId);
     }
 }
