@@ -23,7 +23,7 @@ namespace StudentSatisfactoryBackend.Repositories.UserRepsitory
         }
         public void AddUser(User user)
         {
-            var newUser = new User(user.Course, user.City, user.Email, user.UserName);
+            var newUser = new User(user.CourseId, user.City, user.Email, user.UserName);
             _context.RegisteredUsers.Add(newUser);
         }
 
@@ -72,7 +72,7 @@ namespace StudentSatisfactoryBackend.Repositories.UserRepsitory
             var user = await GetUserByTokenId(courseToUser.TokenId);
             if (user == null)
                 return false;
-            user.Course = courseToUser.CourseName;
+           // user.CourseId = courseToUser.CourseName;
             try
             {
                 await _context.SaveChangesAsync();

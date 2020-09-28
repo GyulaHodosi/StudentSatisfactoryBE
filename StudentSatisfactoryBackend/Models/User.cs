@@ -1,10 +1,12 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace StudentSatisfactoryBackend.Models
 {
     public class User : IdentityUser
     {
-        public string Course { get; set; }
+        [ForeignKey(nameof(Course))]
+        public int CourseId { get; set; }
         public string City { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
@@ -15,9 +17,9 @@ namespace StudentSatisfactoryBackend.Models
 
         }
 
-        public User(string course, string city, string email, string username)
+        public User(int courseId, string city, string email, string username)
         {
-            Course = course;
+            CourseId = courseId;
             City = city;
             Email = email;
             UserName = username;
