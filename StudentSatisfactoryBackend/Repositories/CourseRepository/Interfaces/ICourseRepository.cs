@@ -8,6 +8,6 @@ namespace StudentSatisfactoryBackend.Repositories.CourseRepository.Interfaces
     {
         Task<IEnumerable<Course>> GetAllCourse();
 
-        Task<Course> GetCourseByIdAsync(string courseName);
+        Task<Course> GetCourseByIdAsync(int courseId);
     }
 }

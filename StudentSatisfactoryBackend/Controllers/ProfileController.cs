@@ -14,20 +14,35 @@ using System.Threading.Tasks;
 
 namespace StudentSatisfactoryBackend.Controllers
 {
-    [Route("api/courses")]
+    [Route("api/profile")]
     [ApiController]
-    public class CourseController : ControllerBase
+    public class ProfileController : ControllerBase
     {
         private readonly ICourseRepository _courseRepository;
-        private readonly IUserRepository _userCorseSetter;
+        private readonly IUserRepository _userRepository;
 
-        public CourseController(SurveyContext context, UserManager<User> userManager)
+        public ProfileController(SurveyContext context, UserManager<User> userManager)
         {
-            _userCorseSetter = new UserRepository(context, userManager);
+            _userRepository = new UserRepository(context, userManager);
             _courseRepository = new CourseRepository(context);
         }
 
         [HttpGet]
+        public async Task<ActionResult<UserProfile>> GetProfile(string tokenId)
+        {
+            var user = await _userRepository.GetUserByTokenId(tokenId);
+            UserProfile userProfile;
+            if (user != null)
+            {
+                var courseName = _courseRepository.GetCourseByIdAsync(user.CourseId).Result.Name;
+                userProfile = new UserProfile { CourseName = courseName, FirstName = user.FirstName, LastName = user.LastName, City = user.City, PictureLink = user.PictureLink };
+                return Ok(userProfile);
+            }
+
+            return NotFound();
+        }
+
+        [HttpGet("/courses")]
         public async Task<ActionResult<IEnumerable<string>>> GetCoureses()
         {
             var courses = await _courseRepository.GetAllCourse();
@@ -41,7 +56,7 @@ namespace StudentSatisfactoryBackend.Controllers
         [HttpPost]
         public async Task<IActionResult> SetCourseToUser([FromBody] CourseToUser courseToUser)
         {
-            var result = await _userCorseSetter.SetCourseToUser(courseToUser);
+            var result = await _userRepository.SetCourseToUser(courseToUser);
             if (result)
                 return Ok();
 
