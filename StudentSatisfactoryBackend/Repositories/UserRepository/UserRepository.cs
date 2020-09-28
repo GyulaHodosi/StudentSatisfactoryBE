@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace StudentSatisfactoryBackend.Repositories.UserRepsitory
 {
-    public class UserRepository : IUserRepository, IUserGetter, IUserCorseSetter
+    public class UserRepository : IUserRepository
     {
         private readonly SurveyContext _context;
         private readonly PayloadCreater _creater = new PayloadCreater();

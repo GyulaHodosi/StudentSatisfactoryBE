@@ -18,8 +18,8 @@ namespace StudentSatisfactoryBackend.Controllers
     [ApiController]
     public class CourseController : ControllerBase
     {
-        private readonly ICourseGetter _courseRepository;
-        private readonly IUserCorseSetter _userCorseSetter;
+        private readonly ICourseRepository _courseRepository;
+        private readonly IUserRepository _userCorseSetter;
 
         public CourseController(SurveyContext context, UserManager<User> userManager)
         {

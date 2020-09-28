@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace StudentSatisfactoryBackend.Repositories.CourseRepository
 {
-    public class CourseRepository : ICourseGetter
+    public class CourseRepository : ICourseRepository
     {
         private readonly SurveyContext _context;
 

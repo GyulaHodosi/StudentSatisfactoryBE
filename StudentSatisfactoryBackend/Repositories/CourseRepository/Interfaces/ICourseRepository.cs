@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 
 namespace StudentSatisfactoryBackend.Repositories.CourseRepository.Interfaces
 {
-    public interface ICourseGetter
+    public interface ICourseRepository
     {
         Task<IEnumerable<Course>> GetAllCourse();
 
