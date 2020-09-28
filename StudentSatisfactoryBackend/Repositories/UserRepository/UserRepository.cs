@@ -72,7 +72,8 @@ namespace StudentSatisfactoryBackend.Repositories.UserRepsitory
             var user = await GetUserByTokenId(courseToUser.TokenId);
             if (user == null)
                 return false;
-           // user.CourseId = courseToUser.CourseName;
+
+            user.CourseId = _context.Courses.FirstAsync(course => course.Name == courseToUser.CourseName).Result.Id;
             try
             {
                 await _context.SaveChangesAsync();
