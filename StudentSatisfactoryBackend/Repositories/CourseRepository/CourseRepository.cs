@@ -23,7 +23,7 @@ namespace StudentSatisfactoryBackend.Repositories.CourseRepository
 
         public async Task<Course> GetCourseByIdAsync(int courseId)
         {
-            return await _context.Courses.FindAsync(courseId);
+            return await _context.Courses.FirstOrDefaultAsync(c => c.Id == courseId);
         }
     }
 }

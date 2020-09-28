@@ -27,23 +27,24 @@ namespace StudentSatisfactoryBackend.Controllers
             _courseRepository = new CourseRepository(context);
         }
 
-        [HttpGet]
-        public async Task<ActionResult<UserProfile>> GetProfile(string tokenId)
+        [HttpPost]
+        public async Task<ActionResult<UserProfile>> GetProfile(LoginData data)
         {
-            var user = await _userRepository.GetUserByTokenId(tokenId);
+            var user = await _userRepository.GetUserByTokenId(data.TokenId);
             UserProfile userProfile;
             if (user != null)
             {
-                var courseName = _courseRepository.GetCourseByIdAsync(user.CourseId).Result.Name;
-                userProfile = new UserProfile { CourseName = courseName, FirstName = user.FirstName, LastName = user.LastName, City = user.City, PictureLink = user.PictureLink };
+                var course = await _courseRepository.GetCourseByIdAsync(user.CourseId);
+                userProfile = new UserProfile { FirstName = user.FirstName, LastName = user.LastName, City = user.City, PictureLink = user.PictureLink };
+                userProfile.CourseName = course == null ? "No course yet" : course.Name;
                 return Ok(userProfile);
             }
 
             return NotFound();
         }
 
-        [HttpGet("/courses")]
-        public async Task<ActionResult<IEnumerable<string>>> GetCoureses()
+        [HttpGet("courses")]
+        public async Task<ActionResult<IEnumerable<Course>>> GetCoureses()
         {
             var courses = await _courseRepository.GetAllCourse();
             if(courses.Count() != 0)
@@ -53,7 +54,7 @@ namespace StudentSatisfactoryBackend.Controllers
             return NotFound();
         }
 
-        [HttpPost]
+        [HttpPost("changecourse")]
         public async Task<IActionResult> SetCourseToUser([FromBody] CourseToUser courseToUser)
         {
             var result = await _userRepository.SetCourseToUser(courseToUser);
