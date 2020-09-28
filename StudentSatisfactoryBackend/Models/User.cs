@@ -1,16 +1,29 @@
 ﻿using Microsoft.AspNetCore.Identity;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace StudentSatisfactoryBackend.Models
 {
     public class User : IdentityUser
     {
-        public string Course { get; set; }
+        [ForeignKey(nameof(Course))]
+        public int CourseId { get; set; }
+        public string City { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
+        public string PictureLink { get; set; }
+
+        public User()
+        {
+
+        }
+
+        public User(int courseId, string city, string email, string username)
+        {
+            CourseId = courseId;
+            City = city;
+            Email = email;
+            UserName = username;
+        }
+        
     }
 }

@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using StudentSatisfactoryBackend.Data;
 
 namespace StudentSatisfactoryBackend.Migrations
 {
     [DbContext(typeof(SurveyContext))]
-    partial class SurveyContextModelSnapshot : ModelSnapshot
+    [Migration("20200928100143_AddTables")]
+    partial class AddTables
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -166,32 +168,6 @@ namespace StudentSatisfactoryBackend.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Courses");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Email = "progbasics@code.cool",
-                            Name = "Fullstack - Programming Basics"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            Email = "web@code.cool",
-                            Name = "Fullstack - Web"
-                        },
-                        new
-                        {
-                            Id = 3,
-                            Email = "oop@code.cool",
-                            Name = "Fullstack - OOP"
-                        },
-                        new
-                        {
-                            Id = 4,
-                            Email = "advanced@code.cool",
-                            Name = "Fullstack - Advanced"
-                        });
                 });
 
             modelBuilder.Entity("StudentSatisfactoryBackend.Models.Feedback", b =>
