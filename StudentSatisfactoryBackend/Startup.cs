@@ -19,6 +19,8 @@ using Microsoft.EntityFrameworkCore;
 using StudentSatisfactoryBackend.Data;
 using StudentSatisfactoryBackend.Models;
 using StudentSatisfactoryBackend.Extension;
+using StudentSatisfactoryBackend.Repositories.Interfaces;
+using StudentSatisfactoryBackend.Repositories;
 
 namespace StudentSatisfactoryBackend
 {
@@ -82,6 +84,8 @@ namespace StudentSatisfactoryBackend
                 options.ReturnUrlParameter = CookieAuthenticationDefaults.ReturnUrlParameter;
                 options.SlidingExpiration = true;
             });
+
+            services.AddScoped<IFeedbackRepository, FeedbackRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
