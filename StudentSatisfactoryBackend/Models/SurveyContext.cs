@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using StudentSatisfactoryBackend.Models;
 
 
@@ -17,6 +13,7 @@ namespace StudentSatisfactoryBackend.Data
         public DbSet<User> RegisteredUsers { get; set; }
         public DbSet<Feedback> Feedbacks { get; set; }
         public DbSet<Question> Questions { get; set; }
+        public DbSet<Course> Courses { get; set; }
         public DbSet<UserQuestion> UserQuestions { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -24,7 +21,7 @@ namespace StudentSatisfactoryBackend.Data
             base.OnModelCreating(modelBuilder);
             modelBuilder.Entity<UserQuestion>()
                 .HasKey(uq => new { uq.UserId, uq.QuestionId });
-
+            modelBuilder.Entity<Course>().HasData(CourseList.courses);
         }
     }
 
