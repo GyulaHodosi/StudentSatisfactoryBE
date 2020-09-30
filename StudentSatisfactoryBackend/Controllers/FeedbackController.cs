@@ -18,7 +18,7 @@ namespace StudentSatisfactoryBackend.Controllers
             _repository = repository;
         }
 
-        [HttpGet("all")]
+        [HttpGet]
         public async Task<IActionResult> GetAllFeedbacks()
         {
             try
@@ -33,7 +33,7 @@ namespace StudentSatisfactoryBackend.Controllers
             }
         }
 
-        [HttpGet("all/week")]
+        [HttpGet("week")]
         public async Task<IActionResult> GetAllFeedbacksByWeek()
         {
             try
