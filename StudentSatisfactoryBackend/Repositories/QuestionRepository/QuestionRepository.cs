@@ -18,10 +18,20 @@ namespace StudentSatisfactoryBackend.Repositories
         {
             _context = context;
         }
-        public void AddQuestion(Question question)
+        public async Task<bool> AddQuestion(Question question)
         {
             var newQuestion = new Question(question.Title);
             _context.Questions.Add(newQuestion);
+            try
+            {
+                await _context.SaveChangesAsync();
+                return true;
+            }
+            catch (DbUpdateException)
+            {
+
+                return false;
+            }
         }
 
         public void DeleteQuestion(Question question)
@@ -29,7 +39,7 @@ namespace StudentSatisfactoryBackend.Repositories
             _context.Questions.Remove(question);
         }
 
-        public async void EditQuestion(Question question)
+        public async Task<bool> EditQuestion(Question question)
         {
             var _question = await _context.Questions.SingleOrDefaultAsync(q => q.Id == question.Id);
             //TODO
