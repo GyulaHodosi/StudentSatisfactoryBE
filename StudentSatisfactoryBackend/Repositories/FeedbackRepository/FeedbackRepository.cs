@@ -18,11 +18,24 @@ namespace StudentSatisfactoryBackend.Repositories
         {
             _context = context;
         }
-        public void AddFeedback(Feedback newfeedback)
+        public async Task<bool> AddFeedback(Feedback newfeedback)
         {
             var feedback = new Feedback(newfeedback.UserId, newfeedback.Title);
 
             _context.Feedbacks.Add(feedback);
+
+            try
+            {
+                await _context.SaveChangesAsync();
+                return true;
+            }
+            catch (DbUpdateException)
+            {
+
+                return false;
+            }
+
+
         }
 
         public async Task<IEnumerable<Feedback>> GetAllFeedbacks()
