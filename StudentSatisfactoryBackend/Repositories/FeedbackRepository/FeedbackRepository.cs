@@ -55,6 +55,27 @@ namespace StudentSatisfactoryBackend.Repositories
             return feedback;
         }
 
+        public async Task<bool> VoteFeedback(int id)
+        {
+            var feedback = await _context.Feedbacks.FirstOrDefaultAsync(feedback => feedback.Id == id);
+            if(feedback == null)
+            {
+                return false;
+            }
+
+            feedback.VoteCount++;
+            try
+            {
+                await _context.SaveChangesAsync();
+                return true;
+            }
+            catch (DbUpdateException)
+            {
+                return false;
+            }
+
+        }
+
         public async Task<IEnumerable<Feedback>> GetTop10Feedbacks()
         {
             var feedbacks = await _context.Feedbacks.OrderByDescending(fb => fb.VoteCount).Take(10).ToListAsync();
@@ -70,6 +91,26 @@ namespace StudentSatisfactoryBackend.Repositories
         {
             var feedbacks = await _context.Feedbacks.Where(fb => fb.UserId == userId).ToListAsync();
             return feedbacks;
+        }
+
+        public async Task<bool> RemoveVoteFromFeedback(int id)
+        {
+            var feedback = await _context.Feedbacks.FirstOrDefaultAsync(feedback => feedback.Id == id);
+            if (feedback == null)
+            {
+                return false;
+            }
+
+            feedback.VoteCount--;
+            try
+            {
+                await _context.SaveChangesAsync();
+                return true;
+            }
+            catch (DbUpdateException)
+            {
+                return false;
+            }
         }
     }
 }
