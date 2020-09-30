@@ -22,6 +22,7 @@ namespace StudentSatisfactoryBackend.Data
             modelBuilder.Entity<UserQuestion>()
                 .HasKey(uq => new { uq.UserId, uq.QuestionId });
             modelBuilder.Entity<Course>().HasData(CourseList.courses);
+            modelBuilder.Entity<Question>().HasData(QuestionList.questions);
         }
     }
 
