@@ -48,12 +48,14 @@ namespace StudentSatisfactoryBackend.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<Question>> AddQuestion(string userId, string title)
+        public async Task<ActionResult<Question>> AddQuestion(string title)
         {
-            var question = new Question(title);
-            var result = await _repository.AddQuestion(question);
+            var result = await _repository.AddQuestion(title);
             if (result)
-                return Created("New ingredient created", "");
+                return Created("New question added", "");
+
+            return BadRequest();
+        }
 
             return BadRequest();
         }
