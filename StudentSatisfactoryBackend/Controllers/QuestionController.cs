@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace StudentSatisfactoryBackend.Controllers
 {
-    [Route("questions")]
+    [Route("api/questions")]
     [ApiController]
     public class QuestionController : ControllerBase
     {
