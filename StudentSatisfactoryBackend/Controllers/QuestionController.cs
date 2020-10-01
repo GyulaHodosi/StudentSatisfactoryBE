@@ -57,6 +57,14 @@ namespace StudentSatisfactoryBackend.Controllers
             return BadRequest();
         }
 
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> RemoveQuestion(int id)
+        {
+            var result = await _repository.DeleteQuestion(id);
+            if (result)
+                return Ok();
+            return BadRequest();
+        }
             return BadRequest();
         }
     }
