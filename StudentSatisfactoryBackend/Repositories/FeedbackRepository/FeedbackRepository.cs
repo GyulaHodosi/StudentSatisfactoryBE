@@ -33,8 +33,6 @@ namespace StudentSatisfactoryBackend.Repositories
 
                 return false;
             }
-
-
         }
 
         public async Task<IEnumerable<Feedback>> GetAllFeedbacks()
@@ -54,25 +52,54 @@ namespace StudentSatisfactoryBackend.Repositories
             return feedback;
         }
 
-        public async Task<bool> VoteFeedback(int id)
+        public async Task<bool> VoteFeedback(int id, string userId)
         {
             var feedback = await _context.Feedbacks.FirstOrDefaultAsync(feedback => feedback.Id == id);
-            if(feedback == null)
-            {
-                return false;
-            }
 
-            feedback.VoteCount++;
-            try
-            {
-                await _context.SaveChangesAsync();
-                return true;
-            }
-            catch (DbUpdateException)
-            {
-                return false;
-            }
+            if(feedback == null) return false;
 
+            var userVote = await _context.UserVotes.FirstOrDefaultAsync(uv => uv.FeedbackId == id && uv.UserId == userId);
+
+            if(userVote == null)
+            {               
+                try
+                {
+                    feedback.VoteCount++;
+                    _context.UserVotes.Add(new UserVote() { FeedbackId = id, UserId = userId });
+                    await _context.SaveChangesAsync();
+                    return true;
+                }
+                catch (DbUpdateException)
+                {
+                    return false;
+                }
+            }
+            return false;
+
+        }
+
+        public async Task<bool> RemoveVoteFromFeedback(int id, string userId)
+        {
+            var feedback = await _context.Feedbacks.FirstOrDefaultAsync(feedback => feedback.Id == id);
+            if (feedback == null) return false;
+
+            var userVote = await _context.UserVotes.FirstOrDefaultAsync(uv => uv.FeedbackId == id && uv.UserId == userId);
+            
+            if(userVote != null)
+            {
+                try
+                {
+                    _context.UserVotes.Remove(userVote);
+                    feedback.VoteCount--;
+                    await _context.SaveChangesAsync();
+                    return true;
+                }
+                catch (DbUpdateException)
+                {
+                    return false;
+                }
+            }
+            return false;
         }
 
         public async Task<IEnumerable<Feedback>> GetTop10Feedbacks()
@@ -90,26 +117,6 @@ namespace StudentSatisfactoryBackend.Repositories
         {
             var feedbacks = await _context.Feedbacks.Where(fb => fb.UserId == userId).ToListAsync();
             return feedbacks;
-        }
-
-        public async Task<bool> RemoveVoteFromFeedback(int id)
-        {
-            var feedback = await _context.Feedbacks.FirstOrDefaultAsync(feedback => feedback.Id == id);
-            if (feedback == null)
-            {
-                return false;
-            }
-
-            feedback.VoteCount--;
-            try
-            {
-                await _context.SaveChangesAsync();
-                return true;
-            }
-            catch (DbUpdateException)
-            {
-                return false;
-            }
         }
     }
 }

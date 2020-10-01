@@ -16,7 +16,7 @@ namespace StudentSatisfactoryBackend.Repositories.Interfaces
         Task<IEnumerable<Feedback>> ListFeedbacksByUser(string userId);
         Task<Feedback> GetFeedbackById(int id);
         Task<bool> AddFeedback(string userId, string title);
-        Task<bool> VoteFeedback(int id);
-        Task<bool> RemoveVoteFromFeedback(int id);
+        Task<bool> VoteFeedback(int id, string userId);
+        Task<bool> RemoveVoteFromFeedback(int id, string userId);
     }
 }

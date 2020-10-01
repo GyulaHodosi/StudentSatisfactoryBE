@@ -75,21 +75,21 @@ namespace StudentSatisfactoryBackend.Controllers
         }
 
         [HttpPut("{id}/vote")]
-        public async Task<IActionResult> VoteFeedback(int id)
+        public async Task<IActionResult> VoteFeedback(int id,string userId)
         {
-            var result = await _repository.VoteFeedback(id);
+            var result = await _repository.VoteFeedback(id, userId);
             if (result)
                 return Ok();
-            return BadRequest();
+            return BadRequest("You can't vote. Check, if you've voted before!");
         }
 
         [HttpPut("{id}/remove")]
-        public async Task<IActionResult> RemoveVote(int id)
+        public async Task<IActionResult> RemoveVote(int id, string userId)
         {
-            var result = await _repository.RemoveVoteFromFeedback(id);
+            var result = await _repository.RemoveVoteFromFeedback(id, userId);
             if (result)
                 return Ok();
-            return BadRequest();
+            return BadRequest("You can't remove your vote. Check, if you've voted at all!");
         }
 
         [HttpGet("top")]
