@@ -69,7 +69,7 @@ namespace StudentSatisfactoryBackend.Controllers
         {
             var result = await _repository.AddFeedback(userId, title);
             if (result)
-                return Created("New ingredient created", "");
+                return Created("New feedback added", "");
 
             return BadRequest();
         }
