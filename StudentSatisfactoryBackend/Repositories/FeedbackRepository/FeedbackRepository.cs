@@ -18,14 +18,13 @@ namespace StudentSatisfactoryBackend.Repositories
         {
             _context = context;
         }
-        public async Task<bool> AddFeedback(Feedback newfeedback)
+        public async Task<bool> AddFeedback(string userId, string title)
         {
-            var feedback = new Feedback(newfeedback.UserId, newfeedback.Title);
-
-            _context.Feedbacks.Add(feedback);
+            var feedback = new Feedback(userId, title);
 
             try
             {
+                _context.Feedbacks.Add(feedback);
                 await _context.SaveChangesAsync();
                 return true;
             }

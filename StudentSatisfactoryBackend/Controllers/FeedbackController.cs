@@ -67,8 +67,7 @@ namespace StudentSatisfactoryBackend.Controllers
         [HttpPost]
         public async Task<ActionResult<Feedback>> AddFeedback(string userId, string title)
         {
-            var feedback = new Feedback(userId,title);
-            var result = await _repository.AddFeedback(feedback);
+            var result = await _repository.AddFeedback(userId, title);
             if (result)
                 return Created("New ingredient created", "");
 
