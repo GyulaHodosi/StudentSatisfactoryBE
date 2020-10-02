@@ -16,6 +16,7 @@ namespace StudentSatisfactoryBackend.Data
         public DbSet<Course> Courses { get; set; }
         public DbSet<UserQuestion> UserQuestions { get; set; }
         public DbSet<UserVote> UserVotes { get; set; }
+        public DbSet<Survey> Surveys { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

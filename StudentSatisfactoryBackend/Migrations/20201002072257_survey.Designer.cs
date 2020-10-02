@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using StudentSatisfactoryBackend.Data;
 
 namespace StudentSatisfactoryBackend.Migrations
 {
     [DbContext(typeof(SurveyContext))]
-    partial class SurveyContextModelSnapshot : ModelSnapshot
+    [Migration("20201002072257_survey")]
+    partial class survey
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -239,127 +241,127 @@ namespace StudentSatisfactoryBackend.Migrations
                         new
                         {
                             Id = 1,
-                            Date = new DateTime(2020, 10, 1, 14, 29, 51, 715, DateTimeKind.Local).AddTicks(3287),
+                            Date = new DateTime(2020, 10, 2, 9, 22, 57, 244, DateTimeKind.Local).AddTicks(7989),
                             Title = "Codecool office staff has good response times when there's a question or problem"
                         },
                         new
                         {
                             Id = 2,
-                            Date = new DateTime(2020, 10, 1, 14, 29, 51, 715, DateTimeKind.Local).AddTicks(3541),
+                            Date = new DateTime(2020, 10, 2, 9, 22, 57, 244, DateTimeKind.Local).AddTicks(8100),
                             Title = "There's a valid reaction (something happens) from Codecool office staff when I raise a problem."
                         },
                         new
                         {
                             Id = 3,
-                            Date = new DateTime(2020, 10, 1, 14, 29, 51, 715, DateTimeKind.Local).AddTicks(3559),
+                            Date = new DateTime(2020, 10, 2, 9, 22, 57, 244, DateTimeKind.Local).AddTicks(8108),
                             Title = "The process of study/job contracting, signing paperwork is smooth, communication about it is satisfactory."
                         },
                         new
                         {
                             Id = 4,
-                            Date = new DateTime(2020, 10, 1, 14, 29, 51, 715, DateTimeKind.Local).AddTicks(3576),
+                            Date = new DateTime(2020, 10, 2, 9, 22, 57, 244, DateTimeKind.Local).AddTicks(8115),
                             Title = "There's a cool atmosphere in Codecool which helps me to improve and stay motivated."
                         },
                         new
                         {
                             Id = 5,
-                            Date = new DateTime(2020, 10, 1, 14, 29, 51, 715, DateTimeKind.Local).AddTicks(3592),
+                            Date = new DateTime(2020, 10, 2, 9, 22, 57, 244, DateTimeKind.Local).AddTicks(8121),
                             Title = "I feel belonging to a group in Codecool and it satisfies me."
                         },
                         new
                         {
                             Id = 6,
-                            Date = new DateTime(2020, 10, 1, 14, 29, 51, 715, DateTimeKind.Local).AddTicks(3617),
+                            Date = new DateTime(2020, 10, 2, 9, 22, 57, 244, DateTimeKind.Local).AddTicks(8131),
                             Title = "Codecool is located in a great place (easily reachable, travel time from your home is okay)."
                         },
                         new
                         {
                             Id = 7,
-                            Date = new DateTime(2020, 10, 1, 14, 29, 51, 715, DateTimeKind.Local).AddTicks(3633),
+                            Date = new DateTime(2020, 10, 2, 9, 22, 57, 244, DateTimeKind.Local).AddTicks(8138),
                             Title = "Codecool office offers a clean and calm environment that is needed for me to focus on my studies."
                         },
                         new
                         {
                             Id = 8,
-                            Date = new DateTime(2020, 10, 1, 14, 29, 51, 715, DateTimeKind.Local).AddTicks(3649),
+                            Date = new DateTime(2020, 10, 2, 9, 22, 57, 244, DateTimeKind.Local).AddTicks(8145),
                             Title = "The theoretical materials provided by Codecool help my journey becoming a junior developer."
                         },
                         new
                         {
                             Id = 9,
-                            Date = new DateTime(2020, 10, 1, 14, 29, 51, 715, DateTimeKind.Local).AddTicks(3666),
+                            Date = new DateTime(2020, 10, 2, 9, 22, 57, 244, DateTimeKind.Local).AddTicks(8151),
                             Title = "The practical materials provided by Codecool help my journey becoming a junior developer."
                         },
                         new
                         {
                             Id = 10,
-                            Date = new DateTime(2020, 10, 1, 14, 29, 51, 715, DateTimeKind.Local).AddTicks(3686),
+                            Date = new DateTime(2020, 10, 2, 9, 22, 57, 244, DateTimeKind.Local).AddTicks(8158),
                             Title = "The requirements or competencies in the curriculum provided by Codecool are clear and help my journey becoming a software developer."
                         },
                         new
                         {
                             Id = 11,
-                            Date = new DateTime(2020, 10, 1, 14, 29, 51, 715, DateTimeKind.Local).AddTicks(3702),
+                            Date = new DateTime(2020, 10, 2, 9, 22, 57, 244, DateTimeKind.Local).AddTicks(8165),
                             Title = "I get enough professional help (either from my peers or from mentors) in order to improve in hard skills."
                         },
                         new
                         {
                             Id = 12,
-                            Date = new DateTime(2020, 10, 1, 14, 29, 51, 715, DateTimeKind.Local).AddTicks(3718),
+                            Date = new DateTime(2020, 10, 2, 9, 22, 57, 244, DateTimeKind.Local).AddTicks(8171),
                             Title = "I get enough professional help(either from my peers or from staff members) in order to improve in soft skills."
                         },
                         new
                         {
                             Id = 13,
-                            Date = new DateTime(2020, 10, 1, 14, 29, 51, 715, DateTimeKind.Local).AddTicks(3735),
+                            Date = new DateTime(2020, 10, 2, 9, 22, 57, 244, DateTimeKind.Local).AddTicks(8178),
                             Title = "I get enough emotional support (either from my peers or from staff members) when I need to."
                         },
                         new
                         {
                             Id = 14,
-                            Date = new DateTime(2020, 10, 1, 14, 29, 51, 715, DateTimeKind.Local).AddTicks(3751),
+                            Date = new DateTime(2020, 10, 2, 9, 22, 57, 244, DateTimeKind.Local).AddTicks(8184),
                             Title = "I believe that I will find a job suitable for me after graduating from Codecool."
                         },
                         new
                         {
                             Id = 15,
-                            Date = new DateTime(2020, 10, 1, 14, 29, 51, 715, DateTimeKind.Local).AddTicks(3767),
+                            Date = new DateTime(2020, 10, 2, 9, 22, 57, 244, DateTimeKind.Local).AddTicks(8190),
                             Title = "I would definitely need Codecool's help in finding my first job after graduating."
                         },
                         new
                         {
                             Id = 16,
-                            Date = new DateTime(2020, 10, 1, 14, 29, 51, 715, DateTimeKind.Local).AddTicks(3783),
+                            Date = new DateTime(2020, 10, 2, 9, 22, 57, 244, DateTimeKind.Local).AddTicks(8197),
                             Title = "I believe that there are enough positions to choose from after graduating from Codecool."
                         },
                         new
                         {
                             Id = 17,
-                            Date = new DateTime(2020, 10, 1, 14, 29, 51, 715, DateTimeKind.Local).AddTicks(3798),
+                            Date = new DateTime(2020, 10, 2, 9, 22, 57, 244, DateTimeKind.Local).AddTicks(8203),
                             Title = "Codecool's job interview preparation is a huge help for me to get a job I need."
                         },
                         new
                         {
                             Id = 18,
-                            Date = new DateTime(2020, 10, 1, 14, 29, 51, 715, DateTimeKind.Local).AddTicks(3818),
+                            Date = new DateTime(2020, 10, 2, 9, 22, 57, 244, DateTimeKind.Local).AddTicks(8211),
                             Title = "What do you think about the number of frontal lessons in Codecool?"
                         },
                         new
                         {
                             Id = 19,
-                            Date = new DateTime(2020, 10, 1, 14, 29, 51, 715, DateTimeKind.Local).AddTicks(3834),
+                            Date = new DateTime(2020, 10, 2, 9, 22, 57, 244, DateTimeKind.Local).AddTicks(8217),
                             Title = "What do you think about the amount of teamwork in Codecool?"
                         },
                         new
                         {
                             Id = 20,
-                            Date = new DateTime(2020, 10, 1, 14, 29, 51, 715, DateTimeKind.Local).AddTicks(3850),
+                            Date = new DateTime(2020, 10, 2, 9, 22, 57, 244, DateTimeKind.Local).AddTicks(8224),
                             Title = "What do you think about the amount of self-study time in Codecool?"
                         },
                         new
                         {
                             Id = 21,
-                            Date = new DateTime(2020, 10, 1, 14, 29, 51, 715, DateTimeKind.Local).AddTicks(3866),
+                            Date = new DateTime(2020, 10, 2, 9, 22, 57, 244, DateTimeKind.Local).AddTicks(8230),
                             Title = "What do you think about the number of interactive workshops in Codecool?"
                         });
                 });
