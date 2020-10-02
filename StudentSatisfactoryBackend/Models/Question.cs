@@ -11,10 +11,10 @@ namespace StudentSatisfactoryBackend.Models
         public string Title { get; set; }
         public DateTime Date { get; set; }
 
-        public Question(string title)
+        public Question(string title, DateTime date)
         {
             Title = title;
-            Date = DateTime.Now;
+            Date = date;
         }
     }
 }
