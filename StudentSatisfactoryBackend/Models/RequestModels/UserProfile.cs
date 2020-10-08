@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace StudentSatisfactoryBackend.Models.RequestModels
+﻿namespace StudentSatisfactoryBackend.Models.RequestModels
 {
     public class UserProfile
     {
