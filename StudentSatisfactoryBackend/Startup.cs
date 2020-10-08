@@ -21,6 +21,10 @@ using StudentSatisfactoryBackend.Models;
 using StudentSatisfactoryBackend.Extension;
 using StudentSatisfactoryBackend.Repositories.Interfaces;
 using StudentSatisfactoryBackend.Repositories;
+using StudentSatisfactoryBackend.Repositories.UserRepository.Interfaces;
+using StudentSatisfactoryBackend.Repositories.UserRepsitory;
+using StudentSatisfactoryBackend.Repositories.CourseRepository.Interfaces;
+using StudentSatisfactoryBackend.Repositories.CourseRepository;
 
 namespace StudentSatisfactoryBackend
 {
@@ -87,6 +91,8 @@ namespace StudentSatisfactoryBackend
 
             services.AddScoped<IFeedbackRepository, FeedbackRepository>();
             services.AddScoped<IQuestionRepository, QuestionRepository>();
+            services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<ICourseRepository, CourseRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

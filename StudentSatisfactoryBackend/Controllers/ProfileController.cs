@@ -21,10 +21,10 @@ namespace StudentSatisfactoryBackend.Controllers
         private readonly ICourseRepository _courseRepository;
         private readonly IUserRepository _userRepository;
 
-        public ProfileController(SurveyContext context, UserManager<User> userManager)
+        public ProfileController(ICourseRepository courseRepository, IUserRepository userRepository)
         {
-            _userRepository = new UserRepository(context, userManager);
-            _courseRepository = new CourseRepository(context);
+            _userRepository = userRepository;
+            _courseRepository = courseRepository;
         }
 
         [HttpPost]
