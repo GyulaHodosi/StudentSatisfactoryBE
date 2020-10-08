@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace StudentSatisfactoryBackend.Models
 {
@@ -10,12 +11,18 @@ namespace StudentSatisfactoryBackend.Models
         public int VoteCount { get; set; }
         public DateTime Date { get; set; }
 
-        public Feedback(string userId, string title)
+        [ForeignKey(nameof(Course))]
+        public int CourseId { get; set; }
+        public string City { get; set; }
+
+        public Feedback(string userId, string title, int courseId, string city)
         {
             UserId = userId;
             Title = title;
-            VoteCount = 0;
+            VoteCount = 1;
             Date = DateTime.Now;
+            CourseId = courseId;
+            City = city;
         }
     }
 }
