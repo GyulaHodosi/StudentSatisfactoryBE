@@ -1,7 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using StudentSatisfactoryBackend.Data;
 using StudentSatisfactoryBackend.Models;
+using StudentSatisfactoryBackend.Models.RequestModels;
 using StudentSatisfactoryBackend.Repositories.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -18,43 +18,99 @@ namespace StudentSatisfactoryBackend.Repositories
         {
             _context = context;
         }
-        public async Task<bool> AddFeedback(string userId, string title)
+
+        private List<FeedbackToSend> CreateFeedbackToSend(IEnumerable<Feedback> feedbacks)
         {
-            var feedback = new Feedback(userId, title);
+            var feedsToSend = new List<FeedbackToSend>();
+            foreach (var feedback in feedbacks)
+            {
+                if (feedback != null)
+                {
+                    var user = feedback.UserId == null ? null : _context.Users.Find(feedback.UserId);
+                    feedsToSend.Add(new FeedbackToSend
+                    {
+                        Id = feedback.Id,
+                        Date = $"{feedback.Date.Year}-{feedback.Date.Month}-{feedback.Date.Day}",
+                        Title = feedback.Title,
+                        UserName = user == null ? "anonymus" : $"{user.FirstName} {user.LastName}",
+                        VoteCount = feedback.VoteCount
+                    });
+
+                }
+            }
+            return feedsToSend;
+        }
+
+        public async Task<int> AddFeedback(string userId, string title, int courseId, string city)
+        {
+            var feedback = new Feedback(userId, title, courseId, city);
 
             try
             {
                 _context.Feedbacks.Add(feedback);
                 await _context.SaveChangesAsync();
-                return true;
+                return feedback.Id;
             }
             catch (DbUpdateException)
             {
 
-                return false;
+                return -1;
             }
         }
 
-        public async Task<IEnumerable<Feedback>> GetAllFeedbacks()
+        public async Task<IEnumerable<FeedbackToSend>> GetAllFeedbacks()
         {
-            var feedbacks = await _context.Feedbacks.ToListAsync();
-            return feedbacks;
+            var feedbacks= await _context.Feedbacks.OrderByDescending(f => f.VoteCount).ToArrayAsync();
+            var toReturn = CreateFeedbackToSend(feedbacks);
+            return toReturn.Count > 0 ? toReturn : null;
         }
 
-        public Task<IEnumerable<Feedback>> GetAllFeedbacksOfWeek(DateTime date)
+        public async Task<IEnumerable<FeedbackToSend>> GetAllFeedbacksOfMonth(DateTime date)
         {
-            throw new NotImplementedException();
+            var feedbacks = await _context.Feedbacks.Where(f => f.Date.Month == date.Month)
+                .OrderByDescending(f => f.VoteCount)
+                .ToArrayAsync();
+            var feedsToSend = CreateFeedbackToSend(feedbacks);
+            return feedsToSend.Count > 0 ? feedsToSend : null;
         }
 
-        public async Task<Feedback> GetFeedbackById(int id)
+        public async Task<IEnumerable<FeedbackToSend>> GetAllFeedbacksOfMonthByCity(DateTime date, string city)
         {
-            var feedback = await _context.Feedbacks.FirstOrDefaultAsync(feedback => feedback.Id == id);
-            return feedback;
+            var feedbacks = await _context.Feedbacks.Where(f => f.Date.Month == date.Month && f.City == city)
+                .OrderByDescending(f => f.VoteCount)
+                .ToArrayAsync();
+            var feedsToSend = CreateFeedbackToSend(feedbacks);
+            return feedsToSend.Count > 0 ? feedsToSend : null;
+        }
+
+        public async Task<IEnumerable<FeedbackToSend>> GetAllFeedbacksOfMonthByCourse(DateTime date, int courseId)
+        {
+            var feedbacks = await _context.Feedbacks.Where(f => f.Date.Month == date.Month && f.CourseId == courseId)
+                .OrderByDescending(f => f.VoteCount)
+                .ToArrayAsync();
+            var feedsToSend = CreateFeedbackToSend(feedbacks);
+            return feedsToSend.Count > 0 ? feedsToSend : null;
+        }
+
+        public async Task<IEnumerable<FeedbackToSend>> GetAllFeedbacksOfMonthByCityAndCourseId(DateTime date, string city, int courseId)
+        {
+            var feedbacks = await _context.Feedbacks.Where(f => f.Date.Month == date.Month && f.City == city && f.CourseId == courseId)
+                .OrderByDescending(f => f.VoteCount)
+                .ToArrayAsync();
+            var feedsToSend = CreateFeedbackToSend(feedbacks);
+            return feedsToSend.Count > 0 ? feedsToSend : null;
+        }
+
+        public async Task<FeedbackToSend> GetFeedbackById(int id)
+        {
+            var feedback = new Feedback[] { await _context.Feedbacks.FindAsync(id) };
+            var feedsToSend = CreateFeedbackToSend(feedback);
+            return feedsToSend.Count > 0 ? CreateFeedbackToSend(feedback)[0] : null;
         }
 
         public async Task<bool> VoteFeedback(int id, string userId)
         {
-            var feedback = await _context.Feedbacks.FirstOrDefaultAsync(feedback => feedback.Id == id);
+            var feedback = await _context.Feedbacks.FindAsync(id);
 
             if(feedback == null) return false;
 
@@ -102,21 +158,36 @@ namespace StudentSatisfactoryBackend.Repositories
             return false;
         }
 
-        public async Task<IEnumerable<Feedback>> GetTop10Feedbacks()
+        public async Task<IEnumerable<FeedbackToSend>> GetTop10Feedbacks()
         {
-            var feedbacks = await _context.Feedbacks.OrderByDescending(fb => fb.VoteCount).Take(10).ToListAsync();
-            return feedbacks;
+            var feedbacks = await _context.Feedbacks.OrderByDescending(f => f.VoteCount)
+                .Take(10)              
+                .ToArrayAsync();
+            var feedsToSend = CreateFeedbackToSend(feedbacks);
+            return feedsToSend.Count > 0 ? feedsToSend : null;
         }
 
-        public Task<IEnumerable<Feedback>> GetTop10FeedbacksOfWeek(DateTime date)
+        public async Task<IEnumerable<FeedbackToSend>> GetTop10FeedbacksOfMonth(DateTime date)
         {
-            throw new NotImplementedException();
+            var feedbacks = await _context.Feedbacks.Where(f => f.Date.Month == date.Month)
+                .OrderByDescending(f => f.VoteCount)
+                .Take(10)            
+                .ToArrayAsync();
+            var feedsToSend = CreateFeedbackToSend(feedbacks);
+            return feedsToSend.Count > 0 ? feedsToSend : null;
         }
 
-        public async Task<IEnumerable<Feedback>> ListFeedbacksByUser(string userId)
+        public async Task<IEnumerable<FeedbackToSend>> ListFeedbacksByUser(string userId)
         {
-            var feedbacks = await _context.Feedbacks.Where(fb => fb.UserId == userId).ToListAsync();
-            return feedbacks;
+            var feedbacks = await _context.Feedbacks.Where(fb => fb.UserId == userId)
+                .ToArrayAsync();
+            var feedsToSend = CreateFeedbackToSend(feedbacks);
+            return feedsToSend.Count > 0 ? feedsToSend : null;
+        }
+
+        public async Task<IEnumerable<int>> GetVotedFeedbackIdsByUserId(string userId)
+        {
+            return await _context.UserVotes.Where(uv => uv.UserId == userId).Select(uv => uv.FeedbackId).ToArrayAsync();
         }
     }
 }
