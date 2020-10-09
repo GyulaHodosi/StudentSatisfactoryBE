@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace StudentSatisfactoryBackend.Repositories.UserRepository.Interfaces
 {
-    interface IUserRepository
+    public interface IUserRepository
     {
         void AddUser(User user);
         void EditUser(User user);

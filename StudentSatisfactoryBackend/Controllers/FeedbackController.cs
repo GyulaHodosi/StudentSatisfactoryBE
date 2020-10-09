@@ -1,22 +1,24 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using StudentSatisfactoryBackend.Models;
+using StudentSatisfactoryBackend.Models.RequestModels;
 using StudentSatisfactoryBackend.Repositories.Interfaces;
+using StudentSatisfactoryBackend.Repositories.UserRepository.Interfaces;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace StudentSatisfactoryBackend.Controllers
 {
-    [Route("feedback")]
+    [Route("api/feedback")]
     [ApiController]
     public class FeedbackController : ControllerBase
     {
         private readonly IFeedbackRepository _repository;
+        private readonly IUserRepository _userRepository;
 
-        public FeedbackController(IFeedbackRepository repository)
+        public FeedbackController(IFeedbackRepository repository, IUserRepository userRepository)
         {
             _repository = repository;
+            _userRepository = userRepository;
         }
 
         [HttpGet]
@@ -34,13 +36,19 @@ namespace StudentSatisfactoryBackend.Controllers
             }
         }
 
-        [HttpGet("week")]
-        public async Task<IActionResult> GetAllFeedbacksByWeek()
+        [HttpPost("month")]
+        public async Task<IActionResult> GetAllFeedbacksByMonth(LoginData data)
         {
+            
+            var user = await _userRepository.GetUserByTokenId(data.TokenId);
+            if (user == null)
+                return Unauthorized();
+            
             try
             {
-                var feedbacks = await _repository.GetAllFeedbacksOfWeek(DateTime.Now);
-                return Ok(feedbacks);
+                var feedbacks = await _repository.GetAllFeedbacksOfMonthByCityAndCourseId(DateTime.Now, user.City, user.CourseId);
+                var votedFeedbacks = await _repository.GetVotedFeedbackIdsByUserId(user.Id);
+                return Ok(new FeedbackResponse { Feedbacks = feedbacks, VotedFeedbackIds = votedFeedbacks });
             }
             catch (Exception e)
             {
@@ -65,19 +73,29 @@ namespace StudentSatisfactoryBackend.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<Feedback>> AddFeedback(string userId, string title)
+        public async Task<ActionResult<Feedback>> AddFeedback(FeedbackPostRequest data)
         {
-            var result = await _repository.AddFeedback(userId, title);
-            if (result)
-                return Created("New feedback added", "");
+            var user = await _userRepository.GetUserByTokenId(data.TokenId);
+            if (user == null)
+                return Unauthorized();
+
+            var result = await _repository.AddFeedback(data.Anonymus ? null : user.Id, data.Title, user.CourseId, user.City);
+            if (result >= 0)
+                return Created("New feedback added", result);
 
             return BadRequest();
         }
 
         [HttpPut("{id}/vote")]
-        public async Task<IActionResult> VoteFeedback(int id,string userId)
+        public async Task<IActionResult> VoteFeedback(VoteRequest data)
         {
-            var result = await _repository.VoteFeedback(id, userId);
+            string userId = null;
+            var user = await _userRepository.GetUserByTokenId(data.TokenId);
+            if (user == null)
+                return Unauthorized();
+            userId = user.Id;
+            
+            var result = await _repository.VoteFeedback(data.FeedbackId, userId);
             if (result)
                 return Ok();
             return BadRequest("You can't vote. Check, if you've voted before!");
