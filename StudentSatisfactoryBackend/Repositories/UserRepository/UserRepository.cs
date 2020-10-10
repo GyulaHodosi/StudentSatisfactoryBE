@@ -23,7 +23,7 @@ namespace StudentSatisfactoryBackend.Repositories.UserRepsitory
         }
         public void AddUser(User user)
         {
-            var newUser = new User(user.CourseId, user.City, user.Email, user.UserName);
+            var newUser = new User(user.CourseId, user.City, user.Email, user.UserName, user.Role);
             _context.RegisteredUsers.Add(newUser);
         }
 

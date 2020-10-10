@@ -1,8 +1,9 @@
 ﻿using StudentSatisfactoryBackend.Models;
 using System.Threading.Tasks;
-using StudentSatisfactoryBackend.Models.RequestModels;
 using Microsoft.AspNetCore.Identity;
 using StudentSatisfactoryBackend.Services.PayloadManager;
+using StudentSatisfactoryBackend.Data;
+using System.Linq;
 
 namespace StudentSatisfactoryBackend.Services.LoginManager
 {
@@ -10,10 +11,13 @@ namespace StudentSatisfactoryBackend.Services.LoginManager
     {
         private readonly UserManager<User> _userManager;
         private readonly PayloadCreater _payloadCreater;
-        public LoginManager(UserManager<User> userManager)
+        private readonly SurveyContext _context;
+
+        public LoginManager(UserManager<User> userManager, SurveyContext context)
         {
             _userManager = userManager;
             _payloadCreater = new PayloadCreater();
+            _context = context;
         }
 
         public async Task<bool> Login(string tokenId)
@@ -33,14 +37,14 @@ namespace StudentSatisfactoryBackend.Services.LoginManager
             user = await _userManager.FindByEmailAsync(email);
             if (user == null)
             {
-                // No user exists with this email address, we create a new one
                 user = new User
                 {
                     Email = email,
                     UserName = email,
                     FirstName = firstName,
                     LastName = lastName,
-                    PictureLink = pictureLink
+                    PictureLink = pictureLink,
+                    Role = _context.AdminEmails.Any(ae => ae.Email == email) ? "admin" : "user"
                 };
 
                 await _userManager.CreateAsync(user);
