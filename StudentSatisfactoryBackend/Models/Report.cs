@@ -22,7 +22,7 @@ namespace StudentSatisfactoryBackend.Models
         {
             SurveyId = surveyId;
             AverageOfAnswers = new List<AverageOfAnswers>();
-            FillCount = GetFillCount(answers);
+            SetFillCount(answers);
             AddAveragesOfAnswers(answers);
         }
 
@@ -47,10 +47,9 @@ namespace StudentSatisfactoryBackend.Models
             }
         }
 
-        private int GetFillCount(List<UserQuestion> answers)
+        public void SetFillCount(List<UserQuestion> answers)
         {
-            return answers.Count(a => a.QuestionId == 1 && a.SurveyId == SurveyId);
-
+            FillCount = answers.Count(a => a.QuestionId == 1);
         }
     }
 }
