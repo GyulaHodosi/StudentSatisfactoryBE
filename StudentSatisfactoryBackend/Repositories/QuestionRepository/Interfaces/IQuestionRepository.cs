@@ -20,6 +20,6 @@ namespace StudentSatisfactoryBackend.Repositories.Interfaces
         Task<bool> AddQuestion(string title);
         Task<bool> EditQuestion(int id, string title);
         Task<bool> DeleteQuestion(int questionId);
-        Task<bool> AddAnswer(string title, string userId, int questionId, int value);
+        Task<bool> AddAnswer(Answer answer, int surveyId);
     }
 }
