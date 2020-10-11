@@ -20,9 +20,15 @@ namespace StudentSatisfactoryBackend.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> AddAdmin([FromBody] string email)
+        public async Task<IActionResult> AddAdmin([FromBody] AddAdminData data)
         {
-            if (await _adminRepository.AddAdminRoleByEmail(email))
+            var user = await _userRepository.GetUserByTokenId(data.TokenId);
+            if (user == null || user.Role == "user")
+            {
+                return Unauthorized();
+            }
+
+            if (await _adminRepository.AddAdminRoleByEmail(data.Email))
                 return Created("Email successfully added", "");
             return StatusCode(500);
         }
