@@ -137,5 +137,17 @@ namespace StudentSatisfactoryBackend.Repositories
                 return false;
             }
         }
+
+        public async Task<bool> CheckIfUserCanFillOutSurvey(string userId, int surveyId)
+        {
+            var filledOut = await _context.UserQuestions.FirstOrDefaultAsync(
+                answer => answer.UserId == userId 
+                && answer.SurveyId == surveyId);
+            if(filledOut != null)
+            {
+                return false;
+            }
+            return true;
+        }
     }
 }

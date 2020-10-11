@@ -159,8 +159,12 @@ namespace StudentSatisfactoryBackend.Controllers
         }
 
         [HttpPost("fill/{surveyId}")]
-        public async  Task<ActionResult<SurveyFilled>> FillSurvey(int surveyId, SurveyFilled survey)
+        public async  Task<ActionResult<SurveyFilled>> FillSurvey(int surveyId, SurveyFilled survey, string userId)
         {
+            var canFillOut = await _repository.CheckIfUserCanFillOutSurvey(userId, surveyId); 
+            if(!canFillOut)
+                return BadRequest("You've already filled out this survey!"); 
+            
             foreach(var answer in survey.Answers)
             {
                 var result = await _repository.AddAnswer(answer, surveyId);

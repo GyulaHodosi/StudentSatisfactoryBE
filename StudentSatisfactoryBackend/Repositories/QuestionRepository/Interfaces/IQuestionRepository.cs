@@ -21,5 +21,6 @@ namespace StudentSatisfactoryBackend.Repositories.Interfaces
         Task<bool> EditQuestion(int id, string title);
         Task<bool> DeleteQuestion(int questionId);
         Task<bool> AddAnswer(Answer answer, int surveyId);
+        Task<bool> CheckIfUserCanFillOutSurvey(string userId, int surveyId);
     }
 }
