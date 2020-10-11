@@ -35,7 +35,7 @@ namespace StudentSatisfactoryBackend.Repositories
         {
             try
             {
-                var newQuestion = new Question(title);
+                var newQuestion = new Question(title, DateTime.Now);
                 _context.Questions.Add(newQuestion);
                 await _context.SaveChangesAsync();
                 return true;
