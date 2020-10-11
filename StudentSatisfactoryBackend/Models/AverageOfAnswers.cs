@@ -7,9 +7,7 @@ namespace StudentSatisfactoryBackend.Models
 {
     public class AverageOfAnswers
     {
-        public Report Report { get; set; }
         public int ReportId { get; set; }
-        public Question Question { get; set; }
         public int QuestionId { get; set; }
         public int Average { get; set; }
 
