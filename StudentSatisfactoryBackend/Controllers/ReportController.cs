@@ -58,7 +58,7 @@ namespace StudentSatisfactoryBackend.Controllers
             if (result)
                 return Created("New report created", result);
 
-            return BadRequest();
+            return BadRequest("Report not created because of error or already existing.");
         }
     }
 }

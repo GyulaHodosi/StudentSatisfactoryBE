@@ -38,6 +38,7 @@ namespace StudentSatisfactoryBackend.Repositories.ReportRepository
         }
         public async Task<bool> GenerateReport(int surveyId)
         {
+            if (await _context.Reports.FirstOrDefaultAsync(report => report.SurveyId == surveyId) != null) return false;
             try
             {
                 var allAnswers = await _context.UserQuestions.Where(a => a.SurveyId == surveyId).ToListAsync();
