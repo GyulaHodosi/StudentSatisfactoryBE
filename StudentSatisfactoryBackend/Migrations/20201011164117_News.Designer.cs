@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using StudentSatisfactoryBackend.Data;
 
 namespace StudentSatisfactoryBackend.Migrations
 {
     [DbContext(typeof(SurveyContext))]
-    partial class SurveyContextModelSnapshot : ModelSnapshot
+    [Migration("20201011164117_News")]
+    partial class News
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -184,8 +186,6 @@ namespace StudentSatisfactoryBackend.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("ReportId", "QuestionId");
-
-                    b.HasIndex("QuestionId");
 
                     b.ToTable("AverageOfAnswers");
                 });
@@ -618,13 +618,7 @@ namespace StudentSatisfactoryBackend.Migrations
 
             modelBuilder.Entity("StudentSatisfactoryBackend.Models.AverageOfAnswers", b =>
                 {
-                    b.HasOne("StudentSatisfactoryBackend.Models.Question", "Question")
-                        .WithMany()
-                        .HasForeignKey("QuestionId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("StudentSatisfactoryBackend.Models.Report", "Report")
+                    b.HasOne("StudentSatisfactoryBackend.Models.Report", null)
                         .WithMany("AverageOfAnswers")
                         .HasForeignKey("ReportId")
                         .OnDelete(DeleteBehavior.Cascade)
