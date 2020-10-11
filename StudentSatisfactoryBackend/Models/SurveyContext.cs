@@ -27,7 +27,7 @@ namespace StudentSatisfactoryBackend.Data
                 .HasKey(uv => new { uv.UserId, uv.FeedbackId });
             modelBuilder.Entity<Course>().HasData(CourseList.courses);
             modelBuilder.Entity<Question>().HasData(QuestionList.questions);
-            modelBuilder.Entity<AdminEmail>().HasData(new AdminEmail("codecool.satisafactionapp@gmail.com") {Id = 1 });
+            modelBuilder.Entity<AdminEmail>().HasData(new AdminEmail("codecool.satisfactionapp@gmail.com") {Id = 1 });
         }
     }
 
