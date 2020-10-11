@@ -7,6 +7,15 @@
         public Question Question { get; set; }
         public int QuestionId { get; set; }
         public int Value { get; set; }
-        public string Description { get; set; }
+        public int SurveyId { get; set; }
+
+        public UserQuestion(string userId, int questionId, int value, int surveyId)
+        {
+            UserId = userId;
+            QuestionId = questionId;
+            Value = value;
+            SurveyId = surveyId;
+        }
+
     }
 }
