@@ -10,12 +10,5 @@ namespace StudentSatisfactoryBackend.Models.RequestModels
         public string UserId { get; set; }
         public int QuestionId { get; set; }
         public int Value { get; set; }
-
-        public Answer(string userId, int questionId, int value)
-        {
-            UserId = userId;
-            QuestionId = questionId;
-            Value = value;
-        }
     }
 }
