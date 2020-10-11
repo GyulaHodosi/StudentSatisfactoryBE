@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -8,34 +9,41 @@ namespace StudentSatisfactoryBackend.Models
 {
     public class Report
     {
+        public int Id { get; set; }
         public int SurveyId { get; set; }
         public int FillCount { get; set; }
-        public Dictionary<int, int> QuestionAverage { get; set; }
+        public List<AverageOfAnswers> AverageOfAnswers { get; set; }
 
+        public Report()
+        {
+
+        }
         public Report(int surveyId, List<UserQuestion> answers)
         {
             SurveyId = surveyId;
-            QuestionAverage = new Dictionary<int, int>();
+            AverageOfAnswers = new List<AverageOfAnswers>();
             FillCount = GetFillCount(answers);
-            AddAveragesOfQuestions(answers);
+            AddAveragesOfAnswers(answers);
         }
 
-        public void AddAveragesOfQuestions(List<UserQuestion> answers)
+        public void AddAveragesOfAnswers(List<UserQuestion> answers)
         {
             foreach(var answer in answers)
             {
-                if (QuestionAverage.ContainsKey(answer.QuestionId))
+                var question = AverageOfAnswers.FirstOrDefault(a => a.QuestionId == answer.QuestionId);
+                if(question != null)
                 {
-                    QuestionAverage[answer.QuestionId] += answer.Value;
-                } else
+                    question.Average += answer.Value;
+                } 
+                else
                 {
-                    QuestionAverage[answer.QuestionId] = answer.Value;
+                    AverageOfAnswers.Add(new AverageOfAnswers(Id, answer.QuestionId, answer.Value));
                 }
             }
 
-            foreach(var key in QuestionAverage.Keys)
+            foreach(var avg in AverageOfAnswers)
             {
-                QuestionAverage[key] = QuestionAverage[key] / FillCount;
+                avg.Average /= FillCount;
             }
         }
 
