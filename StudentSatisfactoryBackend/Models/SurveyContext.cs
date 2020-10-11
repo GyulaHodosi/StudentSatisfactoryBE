@@ -20,6 +20,7 @@ namespace StudentSatisfactoryBackend.Data
         public DbSet<Survey> Surveys { get; set; }
         public DbSet<Report> Reports { get; set; }
         public DbSet<AverageOfAnswers> AverageOfAnswers { get; set; }
+        public DbSet<News> News { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
