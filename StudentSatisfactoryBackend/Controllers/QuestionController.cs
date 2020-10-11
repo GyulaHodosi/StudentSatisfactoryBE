@@ -112,6 +112,35 @@ namespace StudentSatisfactoryBackend.Controllers
             }
         }
 
+        [HttpGet("{id}/responses/{surveyId}")]
+        public async Task<IActionResult> GetResponsesOfQuestionBySurvey(int id,int surveyId)
+        {
+            try
+            {
+                var answers = await _repository.GetAllAnswersOfQuestionBySurvey(id,surveyId);
+                return Ok(answers);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                return BadRequest();
+            }
+        }
+
+        [HttpGet("by/{userId}/responses/{surveyId}")]
+        public async Task<IActionResult> GetResponsesOfUserBySurvey(string userId, int surveyId)
+        {
+            try
+            {
+                var answers = await _repository.GetAllAnswersOfUserBySurvey(surveyId, userId);
+                return Ok(answers);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                return BadRequest();
+            }
+        }
         [HttpPost("{questionId}/answer")]
         public async Task<ActionResult<Question>> AddAnswer(string description, string userId, int questionId, int value)
         {
