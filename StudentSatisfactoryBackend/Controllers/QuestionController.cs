@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using StudentSatisfactoryBackend.Models;
+using StudentSatisfactoryBackend.Models.RequestModels;
 using StudentSatisfactoryBackend.Repositories.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -64,6 +65,21 @@ namespace StudentSatisfactoryBackend.Controllers
             if (result)
                 return Ok();
             return BadRequest();
+        }
+
+        [HttpGet("responses/of/{surveyId}")]
+        public async Task<IActionResult> GetResponsesOfSurvey(int surveyId)
+        {
+            try
+            {
+                var answers = await _repository.GetAllAnswersOfSurvey(surveyId);
+                return Ok(answers);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                return BadRequest();
+            }
         }
 
         [HttpGet("{id}/responses")]
