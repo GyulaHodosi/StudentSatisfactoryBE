@@ -16,6 +16,8 @@ using StudentSatisfactoryBackend.Repositories.AdminRepository;
 using StudentSatisfactoryBackend.Repositories.CourseRepository;
 using StudentSatisfactoryBackend.Repositories.CourseRepository.Interfaces;
 using StudentSatisfactoryBackend.Repositories.Interfaces;
+using StudentSatisfactoryBackend.Repositories.NewsRepository;
+using StudentSatisfactoryBackend.Repositories.NewsRepository.Interfaces;
 using StudentSatisfactoryBackend.Repositories.ReportRepository;
 using StudentSatisfactoryBackend.Repositories.ReportRepository.Interfaces;
 using StudentSatisfactoryBackend.Repositories.UserRepository.Interfaces;
@@ -81,6 +83,7 @@ namespace StudentSatisfactoryBackend
             services.AddScoped<ILoginManager, LoginManager>();
             services.AddScoped<IAdminRepository, AdminRepository>();
             services.AddScoped<IReportRepository, ReportRepository>();
+            services.AddScoped<INewsRepository, NewsRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
