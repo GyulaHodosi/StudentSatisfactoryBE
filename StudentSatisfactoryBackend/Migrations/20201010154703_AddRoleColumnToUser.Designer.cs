@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using StudentSatisfactoryBackend.Data;
 
 namespace StudentSatisfactoryBackend.Migrations
 {
     [DbContext(typeof(SurveyContext))]
-    partial class SurveyContextModelSnapshot : ModelSnapshot
+    [Migration("20201010154703_AddRoleColumnToUser")]
+    partial class AddRoleColumnToUser
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -390,24 +392,6 @@ namespace StudentSatisfactoryBackend.Migrations
                             Date = new DateTime(2020, 10, 10, 17, 47, 2, 463, DateTimeKind.Local).AddTicks(6456),
                             Title = "What do you think about the number of interactive workshops in Codecool?"
                         });
-                });
-
-            modelBuilder.Entity("StudentSatisfactoryBackend.Models.Survey", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<DateTime>("Date")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Title")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Surveys");
                 });
 
             modelBuilder.Entity("StudentSatisfactoryBackend.Models.User", b =>

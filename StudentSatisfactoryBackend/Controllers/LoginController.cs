@@ -1,6 +1,4 @@
-﻿using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
-using StudentSatisfactoryBackend.Models;
+﻿using Microsoft.AspNetCore.Mvc;
 using StudentSatisfactoryBackend.Models.RequestModels;
 using StudentSatisfactoryBackend.Services.LoginManager;
 using System.Threading.Tasks;
@@ -14,9 +12,9 @@ namespace StudentSatisfactoryBackend.Controllers
     {
         private readonly ILoginManager _loginManager;
 
-        public LoginController(UserManager<User> userManager)
+        public LoginController(ILoginManager loginManager)
         {
-            _loginManager = new LoginManager(userManager);
+            _loginManager = loginManager;
         }
 
         [HttpGet]
