@@ -9,12 +9,10 @@ namespace StudentSatisfactoryBackend.Models
     {
         public int Id { get; set; }
         public string Title { get; set; }
-        public DateTime Date { get; set; }
 
-        public Question(string title, DateTime date)
+        public Question(string title)
         {
             Title = title;
-            Date = date;
         }
     }
 }
