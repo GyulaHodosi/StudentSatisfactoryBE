@@ -141,14 +141,35 @@ namespace StudentSatisfactoryBackend.Controllers
                 return BadRequest();
             }
         }
+
         [HttpPost("{questionId}/answer")]
-        public async Task<ActionResult<Question>> AddAnswer(string description, string userId, int questionId, int value)
+        public async Task<ActionResult<Question>> AddAnswer(string userId, int questionId, int value, int surveyId)
         {
-            var result = await _repository.AddAnswer(description, userId, questionId, value);
+            var answer = new Answer()
+            {
+                UserId = userId,
+                QuestionId = questionId,
+                Value = value
+            };
+            var result = await _repository.AddAnswer(answer, surveyId);
             if (result)
                 return Created("New answer posted", "");
 
             return BadRequest();
+        }
+
+        [HttpPost("fill/{surveyId}")]
+        public async  Task<ActionResult<SurveyFilled>> FillSurvey(int surveyId, SurveyFilled survey)
+        {
+            foreach(var answer in survey.Answers)
+            {
+                var result = await _repository.AddAnswer(answer, surveyId);
+                if (!result)
+                {
+                    return BadRequest();
+                }
+            }
+            return Created("New answers posted", "");
         }
     }
 }
