@@ -30,7 +30,7 @@ namespace StudentSatisfactoryBackend.Models
         {
             foreach(var answer in answers)
             {
-                var question = AverageOfAnswers.FirstOrDefault(a => a.QuestionId == answer.QuestionId);
+                var question = AverageOfAnswers.FirstOrDefault(a => a.QuestionId == answer.QuestionId && a.ReportId == Id);
                 if(question != null)
                 {
                     question.Average += answer.Value;
@@ -41,7 +41,7 @@ namespace StudentSatisfactoryBackend.Models
                 }
             }
 
-            foreach(var avg in AverageOfAnswers)
+            foreach(var avg in AverageOfAnswers.Where(a => a.ReportId == Id))
             {
                 avg.Average /= FillCount;
             }
