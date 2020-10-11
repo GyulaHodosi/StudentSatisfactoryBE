@@ -97,7 +97,7 @@ namespace StudentSatisfactoryBackend.Controllers
             }
         }
 
-        [HttpGet("responses/by/{userId}")]
+        [HttpGet("by/{userId}/responses")]
         public async Task<IActionResult> GetResponsesOfUser(string userId)
         {
             try
