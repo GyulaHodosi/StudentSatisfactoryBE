@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using StudentSatisfactoryBackend.Data;
 
 namespace StudentSatisfactoryBackend.Migrations
 {
     [DbContext(typeof(SurveyContext))]
-    partial class SurveyContextModelSnapshot : ModelSnapshot
+    [Migration("20201011102322_RemoveQuestionDate")]
+    partial class RemoveQuestionDate
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -168,26 +170,8 @@ namespace StudentSatisfactoryBackend.Migrations
                         new
                         {
                             Id = 1,
-                            Email = "codecool.satisfactionapp@gmail.com"
+                            Email = "codecool.satisafactionapp@gmail.com"
                         });
-                });
-
-            modelBuilder.Entity("StudentSatisfactoryBackend.Models.AverageOfAnswers", b =>
-                {
-                    b.Property<int>("ReportId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("QuestionId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Average")
-                        .HasColumnType("int");
-
-                    b.HasKey("ReportId", "QuestionId");
-
-                    b.HasIndex("QuestionId");
-
-                    b.ToTable("AverageOfAnswers");
                 });
 
             modelBuilder.Entity("StudentSatisfactoryBackend.Models.Course", b =>
@@ -386,24 +370,6 @@ namespace StudentSatisfactoryBackend.Migrations
                         });
                 });
 
-            modelBuilder.Entity("StudentSatisfactoryBackend.Models.Report", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int>("FillCount")
-                        .HasColumnType("int");
-
-                    b.Property<int>("SurveyId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Reports");
-                });
-
             modelBuilder.Entity("StudentSatisfactoryBackend.Models.Survey", b =>
                 {
                     b.Property<int>("Id")
@@ -588,21 +554,6 @@ namespace StudentSatisfactoryBackend.Migrations
                     b.HasOne("StudentSatisfactoryBackend.Models.User", null)
                         .WithMany()
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("StudentSatisfactoryBackend.Models.AverageOfAnswers", b =>
-                {
-                    b.HasOne("StudentSatisfactoryBackend.Models.Question", "Question")
-                        .WithMany()
-                        .HasForeignKey("QuestionId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("StudentSatisfactoryBackend.Models.Report", "Report")
-                        .WithMany("AverageOfAnswers")
-                        .HasForeignKey("ReportId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

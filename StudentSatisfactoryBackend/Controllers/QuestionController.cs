@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using StudentSatisfactoryBackend.Models;
+using StudentSatisfactoryBackend.Models.RequestModels;
 using StudentSatisfactoryBackend.Repositories.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -66,6 +67,21 @@ namespace StudentSatisfactoryBackend.Controllers
             return BadRequest();
         }
 
+        [HttpGet("responses/of/{surveyId}")]
+        public async Task<IActionResult> GetResponsesOfSurvey(int surveyId)
+        {
+            try
+            {
+                var answers = await _repository.GetAllAnswersOfSurvey(surveyId);
+                return Ok(answers);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                return BadRequest();
+            }
+        }
+
         [HttpGet("{id}/responses")]
         public async Task<IActionResult> GetResponsesOfQuestion(int id)
         {
@@ -81,7 +97,7 @@ namespace StudentSatisfactoryBackend.Controllers
             }
         }
 
-        [HttpGet("responses/by/{userId}")]
+        [HttpGet("by/{userId}/responses")]
         public async Task<IActionResult> GetResponsesOfUser(string userId)
         {
             try
@@ -96,14 +112,68 @@ namespace StudentSatisfactoryBackend.Controllers
             }
         }
 
-        [HttpPost("{questionId}/answer")]
-        public async Task<ActionResult<Question>> AddAnswer(string description, string userId, int questionId, int value)
+        [HttpGet("{id}/responses/{surveyId}")]
+        public async Task<IActionResult> GetResponsesOfQuestionBySurvey(int id,int surveyId)
         {
-            var result = await _repository.AddAnswer(description, userId, questionId, value);
+            try
+            {
+                var answers = await _repository.GetAllAnswersOfQuestionBySurvey(id,surveyId);
+                return Ok(answers);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                return BadRequest();
+            }
+        }
+
+        [HttpGet("by/{userId}/responses/{surveyId}")]
+        public async Task<IActionResult> GetResponsesOfUserBySurvey(string userId, int surveyId)
+        {
+            try
+            {
+                var answers = await _repository.GetAllAnswersOfUserBySurvey(surveyId, userId);
+                return Ok(answers);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                return BadRequest();
+            }
+        }
+
+        [HttpPost("{questionId}/answer")]
+        public async Task<ActionResult<Question>> AddAnswer(string userId, int questionId, int value, int surveyId)
+        {
+            var answer = new Answer()
+            {
+                UserId = userId,
+                QuestionId = questionId,
+                Value = value
+            };
+            var result = await _repository.AddAnswer(answer, surveyId);
             if (result)
                 return Created("New answer posted", "");
 
             return BadRequest();
+        }
+
+        [HttpPost("fill/{surveyId}")]
+        public async  Task<ActionResult<SurveyFilled>> FillSurvey(int surveyId, SurveyFilled survey, string userId)
+        {
+            var canFillOut = await _repository.CheckIfUserCanFillOutSurvey(userId, surveyId); 
+            if(!canFillOut)
+                return BadRequest("You've already filled out this survey!"); 
+            
+            foreach(var answer in survey.Answers)
+            {
+                var result = await _repository.AddAnswer(answer, surveyId);
+                if (!result)
+                {
+                    return BadRequest();
+                }
+            }
+            return Created("New answers posted", "");
         }
     }
 }

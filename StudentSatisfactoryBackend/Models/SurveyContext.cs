@@ -17,6 +17,9 @@ namespace StudentSatisfactoryBackend.Data
         public DbSet<UserQuestion> UserQuestions { get; set; }
         public DbSet<UserVote> UserVotes { get; set; }
         public DbSet<AdminEmail> AdminEmails { get; set; }
+        public DbSet<Survey> Surveys { get; set; }
+        public DbSet<Report> Reports { get; set; }
+        public DbSet<AverageOfAnswers> AverageOfAnswers { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -25,6 +28,8 @@ namespace StudentSatisfactoryBackend.Data
                 .HasKey(uq => new { uq.UserId, uq.QuestionId });
             modelBuilder.Entity<UserVote>()
                 .HasKey(uv => new { uv.UserId, uv.FeedbackId });
+            modelBuilder.Entity<AverageOfAnswers>()
+                .HasKey(aoa => new { aoa.ReportId, aoa.QuestionId });
             modelBuilder.Entity<Course>().HasData(CourseList.courses);
             modelBuilder.Entity<Question>().HasData(QuestionList.questions);
             modelBuilder.Entity<AdminEmail>().HasData(new AdminEmail("codecool.satisfactionapp@gmail.com") {Id = 1 });

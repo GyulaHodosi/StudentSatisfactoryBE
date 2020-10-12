@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using StudentSatisfactoryBackend.Data;
 using StudentSatisfactoryBackend.Models;
+using StudentSatisfactoryBackend.Models.RequestModels;
 using StudentSatisfactoryBackend.Repositories.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -97,22 +98,33 @@ namespace StudentSatisfactoryBackend.Repositories
             return userQuestions;
         }
 
-        public async Task<IEnumerable<UserQuestion>> GetAllAnswersOfQuestionByWeek(DateTime date, int questionId)
+        public async Task<IEnumerable<UserQuestion>> GetAllAnswersOfSurvey(int surveyId)
         {
-            var userQuestion = await _context.UserQuestions.Where(uq => uq.QuestionId == questionId).ToListAsync();
-            //TODO
-            throw new NotImplementedException();
+            var answers = await _context.UserQuestions.Where(uq => uq.SurveyId == surveyId).ToListAsync();
+            return answers;
         }
 
-        public async Task<bool> AddAnswer(string description, string userId, int questionId, int value)
+        public async Task<IEnumerable<UserQuestion>> GetAllAnswersOfQuestionBySurvey(int surveyId, int questionId)
         {
-            var response = new UserQuestion()
-            {
-                Description = description,
-                QuestionId = questionId,
-                UserId = userId,
-                Value = value
-            };
+            var answers = await _context.UserQuestions.Where(
+                uq => uq.SurveyId == surveyId 
+                && uq.QuestionId == questionId
+                ).ToListAsync();
+            return answers;
+        }
+
+        public async Task<IEnumerable<UserQuestion>> GetAllAnswersOfUserBySurvey(int surveyId, string userId)
+        {
+            var answers = await _context.UserQuestions.Where(
+                uq => uq.SurveyId == surveyId
+                && uq.UserId == userId
+                ).ToListAsync();
+            return answers;
+        }
+
+        public async Task<bool> AddAnswer(Answer answer, int surveyId)
+        {
+            var response = new UserQuestion(answer.UserId, answer.QuestionId, answer.Value, surveyId);
 
             try
             {
@@ -124,6 +136,18 @@ namespace StudentSatisfactoryBackend.Repositories
             {
                 return false;
             }
+        }
+
+        public async Task<bool> CheckIfUserCanFillOutSurvey(string userId, int surveyId)
+        {
+            var filledOut = await _context.UserQuestions.FirstOrDefaultAsync(
+                answer => answer.UserId == userId 
+                && answer.SurveyId == surveyId);
+            if(filledOut != null)
+            {
+                return false;
+            }
+            return true;
         }
     }
 }

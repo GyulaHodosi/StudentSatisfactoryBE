@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using StudentSatisfactoryBackend.Data;
 
 namespace StudentSatisfactoryBackend.Migrations
 {
     [DbContext(typeof(SurveyContext))]
-    partial class SurveyContextModelSnapshot : ModelSnapshot
+    [Migration("20201011101906_Surveys")]
+    partial class Surveys
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -168,26 +170,8 @@ namespace StudentSatisfactoryBackend.Migrations
                         new
                         {
                             Id = 1,
-                            Email = "codecool.satisfactionapp@gmail.com"
+                            Email = "codecool.satisafactionapp@gmail.com"
                         });
-                });
-
-            modelBuilder.Entity("StudentSatisfactoryBackend.Models.AverageOfAnswers", b =>
-                {
-                    b.Property<int>("ReportId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("QuestionId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Average")
-                        .HasColumnType("int");
-
-                    b.HasKey("ReportId", "QuestionId");
-
-                    b.HasIndex("QuestionId");
-
-                    b.ToTable("AverageOfAnswers");
                 });
 
             modelBuilder.Entity("StudentSatisfactoryBackend.Models.Course", b =>
@@ -271,6 +255,9 @@ namespace StudentSatisfactoryBackend.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("datetime2");
+
                     b.Property<string>("Title")
                         .HasColumnType("nvarchar(max)");
 
@@ -282,126 +269,129 @@ namespace StudentSatisfactoryBackend.Migrations
                         new
                         {
                             Id = 1,
+                            Date = new DateTime(2020, 10, 11, 12, 19, 5, 835, DateTimeKind.Local).AddTicks(3452),
                             Title = "Codecool office staff has good response times when there's a question or problem"
                         },
                         new
                         {
                             Id = 2,
+                            Date = new DateTime(2020, 10, 11, 12, 19, 5, 838, DateTimeKind.Local).AddTicks(1403),
                             Title = "There's a valid reaction (something happens) from Codecool office staff when I raise a problem."
                         },
                         new
                         {
                             Id = 3,
+                            Date = new DateTime(2020, 10, 11, 12, 19, 5, 838, DateTimeKind.Local).AddTicks(1414),
                             Title = "The process of study/job contracting, signing paperwork is smooth, communication about it is satisfactory."
                         },
                         new
                         {
                             Id = 4,
+                            Date = new DateTime(2020, 10, 11, 12, 19, 5, 838, DateTimeKind.Local).AddTicks(1420),
                             Title = "There's a cool atmosphere in Codecool which helps me to improve and stay motivated."
                         },
                         new
                         {
                             Id = 5,
+                            Date = new DateTime(2020, 10, 11, 12, 19, 5, 838, DateTimeKind.Local).AddTicks(1426),
                             Title = "I feel belonging to a group in Codecool and it satisfies me."
                         },
                         new
                         {
                             Id = 6,
+                            Date = new DateTime(2020, 10, 11, 12, 19, 5, 838, DateTimeKind.Local).AddTicks(1436),
                             Title = "Codecool is located in a great place (easily reachable, travel time from your home is okay)."
                         },
                         new
                         {
                             Id = 7,
+                            Date = new DateTime(2020, 10, 11, 12, 19, 5, 838, DateTimeKind.Local).AddTicks(1443),
                             Title = "Codecool office offers a clean and calm environment that is needed for me to focus on my studies."
                         },
                         new
                         {
                             Id = 8,
+                            Date = new DateTime(2020, 10, 11, 12, 19, 5, 838, DateTimeKind.Local).AddTicks(1449),
                             Title = "The theoretical materials provided by Codecool help my journey becoming a junior developer."
                         },
                         new
                         {
                             Id = 9,
+                            Date = new DateTime(2020, 10, 11, 12, 19, 5, 838, DateTimeKind.Local).AddTicks(1456),
                             Title = "The practical materials provided by Codecool help my journey becoming a junior developer."
                         },
                         new
                         {
                             Id = 10,
+                            Date = new DateTime(2020, 10, 11, 12, 19, 5, 838, DateTimeKind.Local).AddTicks(1463),
                             Title = "The requirements or competencies in the curriculum provided by Codecool are clear and help my journey becoming a software developer."
                         },
                         new
                         {
                             Id = 11,
+                            Date = new DateTime(2020, 10, 11, 12, 19, 5, 838, DateTimeKind.Local).AddTicks(1469),
                             Title = "I get enough professional help (either from my peers or from mentors) in order to improve in hard skills."
                         },
                         new
                         {
                             Id = 12,
+                            Date = new DateTime(2020, 10, 11, 12, 19, 5, 838, DateTimeKind.Local).AddTicks(1476),
                             Title = "I get enough professional help(either from my peers or from staff members) in order to improve in soft skills."
                         },
                         new
                         {
                             Id = 13,
+                            Date = new DateTime(2020, 10, 11, 12, 19, 5, 838, DateTimeKind.Local).AddTicks(1482),
                             Title = "I get enough emotional support (either from my peers or from staff members) when I need to."
                         },
                         new
                         {
                             Id = 14,
+                            Date = new DateTime(2020, 10, 11, 12, 19, 5, 838, DateTimeKind.Local).AddTicks(1489),
                             Title = "I believe that I will find a job suitable for me after graduating from Codecool."
                         },
                         new
                         {
                             Id = 15,
+                            Date = new DateTime(2020, 10, 11, 12, 19, 5, 838, DateTimeKind.Local).AddTicks(1495),
                             Title = "I would definitely need Codecool's help in finding my first job after graduating."
                         },
                         new
                         {
                             Id = 16,
+                            Date = new DateTime(2020, 10, 11, 12, 19, 5, 838, DateTimeKind.Local).AddTicks(1501),
                             Title = "I believe that there are enough positions to choose from after graduating from Codecool."
                         },
                         new
                         {
                             Id = 17,
+                            Date = new DateTime(2020, 10, 11, 12, 19, 5, 838, DateTimeKind.Local).AddTicks(1507),
                             Title = "Codecool's job interview preparation is a huge help for me to get a job I need."
                         },
                         new
                         {
                             Id = 18,
+                            Date = new DateTime(2020, 10, 11, 12, 19, 5, 838, DateTimeKind.Local).AddTicks(1515),
                             Title = "What do you think about the number of frontal lessons in Codecool?"
                         },
                         new
                         {
                             Id = 19,
+                            Date = new DateTime(2020, 10, 11, 12, 19, 5, 838, DateTimeKind.Local).AddTicks(1521),
                             Title = "What do you think about the amount of teamwork in Codecool?"
                         },
                         new
                         {
                             Id = 20,
+                            Date = new DateTime(2020, 10, 11, 12, 19, 5, 838, DateTimeKind.Local).AddTicks(1527),
                             Title = "What do you think about the amount of self-study time in Codecool?"
                         },
                         new
                         {
                             Id = 21,
+                            Date = new DateTime(2020, 10, 11, 12, 19, 5, 838, DateTimeKind.Local).AddTicks(1534),
                             Title = "What do you think about the number of interactive workshops in Codecool?"
                         });
-                });
-
-            modelBuilder.Entity("StudentSatisfactoryBackend.Models.Report", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int>("FillCount")
-                        .HasColumnType("int");
-
-                    b.Property<int>("SurveyId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Reports");
                 });
 
             modelBuilder.Entity("StudentSatisfactoryBackend.Models.Survey", b =>
@@ -588,21 +578,6 @@ namespace StudentSatisfactoryBackend.Migrations
                     b.HasOne("StudentSatisfactoryBackend.Models.User", null)
                         .WithMany()
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("StudentSatisfactoryBackend.Models.AverageOfAnswers", b =>
-                {
-                    b.HasOne("StudentSatisfactoryBackend.Models.Question", "Question")
-                        .WithMany()
-                        .HasForeignKey("QuestionId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("StudentSatisfactoryBackend.Models.Report", "Report")
-                        .WithMany("AverageOfAnswers")
-                        .HasForeignKey("ReportId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

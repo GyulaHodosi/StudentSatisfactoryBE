@@ -8,6 +8,8 @@
   <ItemGroup>
     <Compile Remove="Migrations\20200928095812_AddTables.cs" />
     <Compile Remove="Migrations\20200928095812_AddTables.Designer.cs" />
+    <Compile Remove="Migrations\20201011105026_idk.cs" />
+    <Compile Remove="Migrations\20201011105026_idk.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>
