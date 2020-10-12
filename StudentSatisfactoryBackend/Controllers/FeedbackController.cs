@@ -139,5 +139,18 @@ namespace StudentSatisfactoryBackend.Controllers
                 return BadRequest();
             }
         }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteFeedback(int id, [FromHeader] string tokenId)
+        {
+            var user = await _userRepository.GetUserByTokenId(tokenId);
+            if (user == null || user.Role == "user")
+                return Unauthorized();
+
+            if (await _repository.RemoveFeedback(id))
+                return Ok();
+
+            return StatusCode(500);
+        }
     }
 }

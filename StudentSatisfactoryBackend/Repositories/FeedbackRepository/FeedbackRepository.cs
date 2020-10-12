@@ -189,5 +189,23 @@ namespace StudentSatisfactoryBackend.Repositories
         {
             return await _context.UserVotes.Where(uv => uv.UserId == userId).Select(uv => uv.FeedbackId).ToArrayAsync();
         }
+
+        public async Task<bool> RemoveFeedback(int id)
+        {
+            var feedback = await _context.Feedbacks.FindAsync(id);
+            if (feedback == null)
+                return true;
+            _context.Feedbacks.Remove(feedback);
+            _context.UserVotes.RemoveRange(_context.UserVotes.Where(uv => uv.FeedbackId == id));
+            try
+            {
+                await _context.SaveChangesAsync();
+                return true;
+            }
+            catch (DbUpdateException)
+            {
+                return false;
+            }
+        }
     }
 }

@@ -20,5 +20,6 @@ namespace StudentSatisfactoryBackend.Repositories.Interfaces
         Task<int> AddFeedback(string userId, string title, int courseId, string city);
         Task<bool> VoteFeedback(int id, string userId);
         Task<bool> RemoveVoteFromFeedback(int id, string userId);
+        Task<bool> RemoveFeedback(int id);
     }
 }

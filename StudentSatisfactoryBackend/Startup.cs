@@ -1,30 +1,25 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.HttpOverrides;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
-using Swashbuckle.AspNetCore.Swagger;
 using Microsoft.OpenApi.Models;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.HttpOverrides;
-using Microsoft.EntityFrameworkCore;
 using StudentSatisfactoryBackend.Data;
-using StudentSatisfactoryBackend.Models;
 using StudentSatisfactoryBackend.Extension;
-using StudentSatisfactoryBackend.Repositories.Interfaces;
+using StudentSatisfactoryBackend.Models;
 using StudentSatisfactoryBackend.Repositories;
+using StudentSatisfactoryBackend.Repositories.AdminRepository;
+using StudentSatisfactoryBackend.Repositories.CourseRepository;
+using StudentSatisfactoryBackend.Repositories.CourseRepository.Interfaces;
+using StudentSatisfactoryBackend.Repositories.Interfaces;
 using StudentSatisfactoryBackend.Repositories.UserRepository.Interfaces;
 using StudentSatisfactoryBackend.Repositories.UserRepsitory;
-using StudentSatisfactoryBackend.Repositories.CourseRepository.Interfaces;
-using StudentSatisfactoryBackend.Repositories.CourseRepository;
+using StudentSatisfactoryBackend.Services.LoginManager;
+using System;
 
 namespace StudentSatisfactoryBackend
 {
@@ -77,22 +72,12 @@ namespace StudentSatisfactoryBackend
                     ClientData = googleAuthNSection.Get<ClientData>();
                 });
 
-            services.ConfigureApplicationCookie(options =>
-            {
-                options.Cookie.HttpOnly = true;
-                options.Cookie.Name = "credentials";
-                options.ExpireTimeSpan = TimeSpan.FromHours(24);
-                options.Cookie.Domain = "localhost";
-                options.LoginPath = "/login";
-                options.LogoutPath = "/logout";
-                options.ReturnUrlParameter = CookieAuthenticationDefaults.ReturnUrlParameter;
-                options.SlidingExpiration = true;
-            });
-
             services.AddScoped<IFeedbackRepository, FeedbackRepository>();
             services.AddScoped<IQuestionRepository, QuestionRepository>();
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<ICourseRepository, CourseRepository>();
+            services.AddScoped<ILoginManager, LoginManager>();
+            services.AddScoped<IAdminRepository, AdminRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
