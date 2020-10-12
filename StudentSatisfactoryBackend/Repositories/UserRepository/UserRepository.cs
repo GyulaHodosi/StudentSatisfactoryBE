@@ -74,6 +74,7 @@ namespace StudentSatisfactoryBackend.Repositories.UserRepsitory
                 return false;
 
             user.CourseId = _context.Courses.FirstAsync(course => course.Name == courseToUser.CourseName).Result.Id;
+            user.City = courseToUser.City;
             try
             {
                 await _context.SaveChangesAsync();
