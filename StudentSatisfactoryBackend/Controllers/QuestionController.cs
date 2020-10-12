@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using StudentSatisfactoryBackend.Repositories.UserRepository.Interfaces;
 
 namespace StudentSatisfactoryBackend.Controllers
 {
@@ -14,9 +15,11 @@ namespace StudentSatisfactoryBackend.Controllers
     public class QuestionController : ControllerBase
     {
         private readonly IQuestionRepository _repository;
-        public QuestionController(IQuestionRepository repository)
+        private readonly IUserRepository _userRepository;
+        public QuestionController(IQuestionRepository repository, IUserRepository userRepository)
         {
             _repository = repository;
+            _userRepository = userRepository;
         }
 
         [HttpGet]
@@ -158,7 +161,7 @@ namespace StudentSatisfactoryBackend.Controllers
             return BadRequest();
         }
 
-        [HttpGet("/api/surveys")]
+        [HttpPost("/api/surveys")]
         public async Task<ActionResult<IEnumerable<Survey>>> GetAllSurveys(string userId)
         {
             try
@@ -196,15 +199,18 @@ namespace StudentSatisfactoryBackend.Controllers
         }
 
         [HttpPost("/api/surveys/fill/{surveyId}")]
-        public async  Task<ActionResult<SurveyFilled>> FillSurvey(int surveyId, SurveyFilled survey, string userId)
+        public async  Task<ActionResult<SurveyFilled>> FillSurvey(SurveyFilled survey)
         {
-            var canFillOut = await _repository.CheckIfUserCanFillOutSurvey(userId, surveyId); 
+            var user = await _userRepository.GetUserByTokenId(survey.TokenId);
+
+            var canFillOut = await _repository.CheckIfUserCanFillOutSurvey(user.Id, survey.SurveyId); 
             if(!canFillOut)
                 return BadRequest("You've already filled out this survey!"); 
             
             foreach(var answer in survey.Answers)
             {
-                var result = await _repository.AddAnswer(answer, surveyId);
+                answer.UserId = user.Id;
+                var result = await _repository.AddAnswer(answer, survey.SurveyId);
                 if (!result)
                 {
                     return BadRequest();

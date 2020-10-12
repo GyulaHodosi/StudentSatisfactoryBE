@@ -7,7 +7,7 @@ namespace StudentSatisfactoryBackend.Models.RequestModels
 {
     public class SurveyFilled
     {
-        public string UserId { get; set; }
+        public string TokenId { get; set; }
         public int SurveyId { get; set; }
         public List<Answer> Answers { get; set; }
     }
