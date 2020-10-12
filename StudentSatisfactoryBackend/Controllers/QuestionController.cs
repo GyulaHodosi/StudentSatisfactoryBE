@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using StudentSatisfactoryBackend.Repositories.UserRepository.Interfaces;
 
 namespace StudentSatisfactoryBackend.Controllers
 {
@@ -14,9 +15,11 @@ namespace StudentSatisfactoryBackend.Controllers
     public class QuestionController : ControllerBase
     {
         private readonly IQuestionRepository _repository;
-        public QuestionController(IQuestionRepository repository)
+        private readonly IUserRepository _userRepository;
+        public QuestionController(IQuestionRepository repository, IUserRepository userRepository)
         {
             _repository = repository;
+            _userRepository = userRepository;
         }
 
         [HttpGet]
@@ -158,16 +161,56 @@ namespace StudentSatisfactoryBackend.Controllers
             return BadRequest();
         }
 
-        [HttpPost("fill/{surveyId}")]
-        public async  Task<ActionResult<SurveyFilled>> FillSurvey(int surveyId, SurveyFilled survey, string userId)
+        [HttpPost("/api/surveys")]
+        public async Task<ActionResult<IEnumerable<Survey>>> GetAllSurveys(string userId)
         {
-            var canFillOut = await _repository.CheckIfUserCanFillOutSurvey(userId, surveyId); 
+            try
+            {
+                var surveys = await _repository.GetAllSurveys();
+                foreach(var survey in surveys)
+                {
+                    survey.FilledAlready = await _repository.CheckIfUserCanFillOutSurvey(userId, survey.Id);
+                }
+                return Ok(surveys);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                return BadRequest();
+            }
+        }
+
+        [HttpGet("/api/surveys/{surveyId}")]
+        public async Task<ActionResult<IEnumerable<Survey>>> GetSurveyById(string userId,int surveyId)
+        {
+            try
+            {
+                var survey = await _repository.GetSurveyById(surveyId);
+                
+                survey.FilledAlready = await _repository.CheckIfUserCanFillOutSurvey(userId, survey.Id);
+                
+                return Ok(survey);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                return BadRequest();
+            }
+        }
+
+        [HttpPost("/api/surveys/fill/{surveyId}")]
+        public async  Task<ActionResult<SurveyFilled>> FillSurvey(SurveyFilled survey)
+        {
+            var user = await _userRepository.GetUserByTokenId(survey.TokenId);
+
+            var canFillOut = await _repository.CheckIfUserCanFillOutSurvey(user.Id, survey.SurveyId); 
             if(!canFillOut)
                 return BadRequest("You've already filled out this survey!"); 
             
             foreach(var answer in survey.Answers)
             {
-                var result = await _repository.AddAnswer(answer, surveyId);
+                answer.UserId = user.Id;
+                var result = await _repository.AddAnswer(answer, survey.SurveyId);
                 if (!result)
                 {
                     return BadRequest();
