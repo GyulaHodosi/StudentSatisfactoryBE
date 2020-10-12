@@ -141,9 +141,9 @@ namespace StudentSatisfactoryBackend.Controllers
         }
 
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteFeedback(int id, [FromBody] LoginData data)
+        public async Task<IActionResult> DeleteFeedback(int id, [FromHeader] string tokenId)
         {
-            var user = await _userRepository.GetUserByTokenId(data.TokenId);
+            var user = await _userRepository.GetUserByTokenId(tokenId);
             if (user == null || user.Role == "user")
                 return Unauthorized();
 
