@@ -49,7 +49,7 @@ namespace StudentSatisfactoryBackend.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<News>> AddFeedback(string userId, string userName, string description)
+        public async Task<ActionResult<News>> AddNews(string userId, string userName, string description)
         {
             //TODO only admin can post
 

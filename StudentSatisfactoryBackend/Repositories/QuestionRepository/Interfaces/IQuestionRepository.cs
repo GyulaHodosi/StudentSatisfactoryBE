@@ -11,6 +11,8 @@ namespace StudentSatisfactoryBackend.Repositories.Interfaces
     public interface IQuestionRepository
     {
         Task<IEnumerable<Question>> GetAllQuestions();
+        Task<Survey> GetSurveyById(int id);
+        Task<IEnumerable<Survey>> GetAllSurveys();
         Task<IEnumerable<UserQuestion>> GetAllAnswersOfQuestion(int questionId);
         Task<IEnumerable<UserQuestion>> GetAllAnswersOfUser(string userId);
         Task<IEnumerable<UserQuestion>> GetAllAnswersOfSurvey(int surveyId);

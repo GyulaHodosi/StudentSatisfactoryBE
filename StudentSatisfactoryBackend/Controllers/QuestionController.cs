@@ -158,7 +158,44 @@ namespace StudentSatisfactoryBackend.Controllers
             return BadRequest();
         }
 
-        [HttpPost("fill/{surveyId}")]
+        [HttpGet("/surveys")]
+        public async Task<ActionResult<IEnumerable<Survey>>> GetAllSurveys(string userId)
+        {
+            try
+            {
+                var surveys = await _repository.GetAllSurveys();
+                foreach(var survey in surveys)
+                {
+                    survey.FilledAlready = await _repository.CheckIfUserCanFillOutSurvey(userId, survey.Id);
+                }
+                return Ok(surveys);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                return BadRequest();
+            }
+        }
+
+        [HttpGet("/surveys/{surveyId}")]
+        public async Task<ActionResult<IEnumerable<Survey>>> GetSurveyById(string userId,int surveyId)
+        {
+            try
+            {
+                var survey = await _repository.GetSurveyById(surveyId);
+                
+                survey.FilledAlready = await _repository.CheckIfUserCanFillOutSurvey(userId, survey.Id);
+                
+                return Ok(survey);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                return BadRequest();
+            }
+        }
+
+        [HttpPost("/surveys/fill/{surveyId}")]
         public async  Task<ActionResult<SurveyFilled>> FillSurvey(int surveyId, SurveyFilled survey, string userId)
         {
             var canFillOut = await _repository.CheckIfUserCanFillOutSurvey(userId, surveyId); 

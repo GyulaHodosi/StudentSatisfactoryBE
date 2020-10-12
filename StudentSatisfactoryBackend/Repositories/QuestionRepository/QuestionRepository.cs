@@ -26,10 +26,22 @@ namespace StudentSatisfactoryBackend.Repositories
             return questions;
         }
 
-        public Task<Question> GetQuestionById(int id)
+        public async Task<Question> GetQuestionById(int id)
         {
-            var question = _context.Questions.FirstOrDefaultAsync(q => q.Id == id);
+            var question = await _context.Questions.FirstOrDefaultAsync(q => q.Id == id);
             return question;
+        }
+
+        public async Task<IEnumerable<Survey>> GetAllSurveys()
+        {
+            var surveys = await _context.Surveys.ToListAsync();
+            return surveys;
+        }
+
+        public async Task<Survey> GetSurveyById(int id)
+        {
+            var survey = await _context.Surveys.FirstOrDefaultAsync(s =>s.Id == id);
+            return survey;
         }
 
         public async Task<bool> AddQuestion(string title)
