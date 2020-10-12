@@ -56,11 +56,11 @@ namespace StudentSatisfactoryBackend.Controllers
         public async Task<ActionResult<News>> AddNews(NewsPostRequest data)
         {
             var user = await _userRepository.GetUserByTokenId(data.TokenId);
-            if (user == null)
+            if (user == null || user.Role == "user")
                 return Unauthorized();
 
-            var result = await _repository.AddNews(user.Id, user.UserName, data.Description, DateTime.Now);
-            if (result != null)
+            var result = await _repository.AddNews(user.Id, data.Description, DateTime.Now);
+            if (result)
                 return Created("New feedback added", result);
 
             return BadRequest();
