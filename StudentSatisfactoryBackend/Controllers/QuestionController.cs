@@ -158,7 +158,7 @@ namespace StudentSatisfactoryBackend.Controllers
             return BadRequest();
         }
 
-        [HttpGet("/surveys")]
+        [HttpGet("/api/surveys")]
         public async Task<ActionResult<IEnumerable<Survey>>> GetAllSurveys(string userId)
         {
             try
@@ -177,7 +177,7 @@ namespace StudentSatisfactoryBackend.Controllers
             }
         }
 
-        [HttpGet("/surveys/{surveyId}")]
+        [HttpGet("/api/surveys/{surveyId}")]
         public async Task<ActionResult<IEnumerable<Survey>>> GetSurveyById(string userId,int surveyId)
         {
             try
@@ -195,7 +195,7 @@ namespace StudentSatisfactoryBackend.Controllers
             }
         }
 
-        [HttpPost("/surveys/fill/{surveyId}")]
+        [HttpPost("/api/surveys/fill/{surveyId}")]
         public async  Task<ActionResult<SurveyFilled>> FillSurvey(int surveyId, SurveyFilled survey, string userId)
         {
             var canFillOut = await _repository.CheckIfUserCanFillOutSurvey(userId, surveyId); 
