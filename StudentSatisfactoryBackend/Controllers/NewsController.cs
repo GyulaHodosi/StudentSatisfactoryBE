@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using StudentSatisfactoryBackend.Models;
+using StudentSatisfactoryBackend.Models.RequestModels;
 using StudentSatisfactoryBackend.Repositories.NewsRepository.Interfaces;
+using StudentSatisfactoryBackend.Repositories.UserRepository.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,9 +15,11 @@ namespace StudentSatisfactoryBackend.Controllers
     public class NewsController : ControllerBase
     {
         private readonly INewsRepository _repository;
-        public NewsController(INewsRepository repository)
+        private readonly IUserRepository _userRepository;
+        public NewsController(INewsRepository repository, IUserRepository userRepository)
         {
             _repository = repository;
+            _userRepository = userRepository;
         }
 
         [HttpGet]
@@ -49,14 +53,15 @@ namespace StudentSatisfactoryBackend.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<News>> AddFeedback(string userId, string userName, string description)
+        public async Task<ActionResult<News>> AddNews(NewsPostRequest data)
         {
-            //TODO only admin can post
+            var user = await _userRepository.GetUserByTokenId(data.TokenId);
+            if (user == null)
+                return Unauthorized();
 
-            var result = await _repository.AddNews(userId, userName, description, DateTime.Now);
-
-            if (result)
-                return Created("New post added", result);
+            var result = await _repository.AddNews(user.Id, user.UserName, data.Description, DateTime.Now);
+            if (result != null)
+                return Created("New feedback added", result);
 
             return BadRequest();
         }

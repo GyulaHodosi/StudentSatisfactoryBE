@@ -30,18 +30,18 @@ namespace StudentSatisfactoryBackend.Repositories.NewsRepository
             var news = await _context.News.FirstOrDefaultAsync(n => n.Id == id);
             return news;
         }
-        public async Task<bool> AddNews(string userId, string userName, string description, DateTime date)
+        public async Task<News> AddNews(string userId, string userName, string description, DateTime date)
         {
             try
             {
                 var newPost = new News(userId, userName, description, date);
                 _context.News.Add(newPost);
                 await _context.SaveChangesAsync();
-                return true;
+                return newPost;
             }
             catch (DbUpdateException)
             {
-                return false;
+                return null;
             }
         }
     }

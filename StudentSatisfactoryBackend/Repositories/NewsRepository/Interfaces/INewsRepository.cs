@@ -10,6 +10,6 @@ namespace StudentSatisfactoryBackend.Repositories.NewsRepository.Interfaces
     {
         Task<IEnumerable<News>> GetAllNews();
         Task<News> GetNewsById(int id);
-        Task<bool> AddNews(string userId, string userName, string description, DateTime date);
+        Task<News> AddNews(string userId, string userName, string description, DateTime date);
     }
 }
