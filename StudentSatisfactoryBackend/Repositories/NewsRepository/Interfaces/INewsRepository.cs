@@ -9,6 +9,6 @@ namespace StudentSatisfactoryBackend.Repositories.NewsRepository.Interfaces
     {
         Task<IEnumerable<NewsToSend>> GetAllNews();
         Task<NewsToSend> GetNewsById(int id);
-        Task<bool> AddNews(string userId, string description, DateTime date);
+        Task<int> AddNews(string userId, string description, DateTime date);
     }
 }

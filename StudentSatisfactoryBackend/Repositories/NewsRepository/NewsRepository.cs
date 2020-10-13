@@ -46,18 +46,18 @@ namespace StudentSatisfactoryBackend.Repositories.NewsRepository
             var news = await _context.News.FindAsync(id);
             return GenerateNewsToSend(news);
         }
-        public async Task<bool> AddNews(string userId, string description, DateTime date)
+        public async Task<int> AddNews(string userId, string description, DateTime date)
         {
             try
             {
                 var newPost = new News(userId, description, date);
                 _context.News.Add(newPost);
                 await _context.SaveChangesAsync();
-                return true;
+                return newPost.Id;
             }
             catch (DbUpdateException)
             {
-                return false;
+                return 0;
             }
         }
     }

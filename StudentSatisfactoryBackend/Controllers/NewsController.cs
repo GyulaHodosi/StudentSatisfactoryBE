@@ -60,7 +60,7 @@ namespace StudentSatisfactoryBackend.Controllers
                 return Unauthorized();
 
             var result = await _repository.AddNews(user.Id, data.Description, DateTime.Now);
-            if (result)
+            if (result > 0)
                 return Created("New feedback added", result);
 
             return BadRequest();
